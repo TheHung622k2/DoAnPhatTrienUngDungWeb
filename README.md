@@ -1,7 +1,8 @@
 <h2>Đồ Án Phát Triển Ứng Dụng Web 2</h2> 
 
 <h3>Thành viên</h3> 
-1. Phạm Thế Hùng <space></space>
+1. Phạm Thế Hùng 
+<space></space>
 2. Võ Đại Hiệp
 
 <h1>WEBSITE ĐẶT VÉ XEM PHIM </h1>
