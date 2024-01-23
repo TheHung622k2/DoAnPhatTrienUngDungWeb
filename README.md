@@ -1,8 +1,8 @@
 # Đồ Án Phát Triển Ứng Dụng Web 2
 
 # Thành viên
-Phạm Thế Hùng
-Võ Đại Hiệp
+1. Phạm Thế Hùng
+2. Võ Đại Hiệp
 
 # WEBSITE ĐẶT VÉ XEM PHIM
 
