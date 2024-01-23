@@ -1,6 +1,6 @@
 <h2>Đồ Án Phát Triển Ứng Dụng Web 2</h2> 
 
-<h3>Thành viên</h3> 
+<h3>Thành viên: </h3> 
 <p>1. Phạm Thế Hùng</p>
 <p>2. Võ Đại Hiệp</p>
 
