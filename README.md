@@ -4,7 +4,8 @@
 <p>1. Phạm Thế Hùng - 63134128</p>
 <p>2. Võ Đại Hiệp - 63132946</p>
 
-# WEBSITE ĐẶT VÉ XEM PHIM 2H
+# HỆ THỐNG QUẢN LÝ RẠP CHIẾU PHIM CGV NHA TRANG
 
-<h3>Lý do chọn đề tài: </h3> 
-Nhằm mục đích dễ dàng cho người sử dụng và thuận tiện hơn cho người quản lý, giúp nhanh chóng và tiết kiệm được thời gian, công sức đến nơi giao dịch để mua vé xem phim, phải xếp hàng chờ đợi đến lượt để được mua vé, khách hàng còn phải mất thời gian để đứng ở bảng tin để chọn phim, với nhu cầu đó thì chúng em đã chọn đề tài: “XÂY DỰNG WEBSITE ĐẶT VÉ XEM PHIM 2H” nhằm đáp ứng nhu cầu và đem lại sự thuận tiện cho mọi người.
+<h3>Mục tiêu đề tài: </h3> 
+Hệ thống trang web quản lý rạp chiếu phim CGV Nha Trang dùng để đặt vé xem phim online, đặt vé tại quầy, quản lý lịch chiếu phim, xem thống kê doanh thu.
+
