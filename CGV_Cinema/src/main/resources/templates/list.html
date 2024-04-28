@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách Phim</title>
+</head>
+<body>
+    <h1>Danh sách Phim</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Tên Phim</th>
+                <th>Ảnh</th>
+                <th>Đạo Diễn</th>
+                <th>Diễn Viên</th>
+                <th>Thời Lượng</th>
+                <th>Khởi Chiếu</th>
+                <th>Mô Tả</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="phim : ${phimList}">
+                <td th:text="${phim.tenPhim}"></td>
+                <td>
+                    <!-- Corrected the image source path -->
+                    <img th:src="${phim.anh}" width="100" height="150" alt="Ảnh phim"/>
+                </td>
+                <td th:text="${phim.daoDien}"></td>
+                <td th:text="${phim.dienVien}"></td>
+                <td th:text="${phim.thoiLuong}"></td>
+                <td th:text="${phim.khoiChieu}"></td>
+                <td th:text="${phim.moTa}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
