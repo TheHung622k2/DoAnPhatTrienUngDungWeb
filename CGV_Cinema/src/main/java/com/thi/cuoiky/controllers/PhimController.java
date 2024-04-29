@@ -28,7 +28,7 @@ public class PhimController {
             phim.setTheLoai(phimService.layTheLoaiCuaPhim(phim.getMaPhim()));
         }
         model.addAttribute("phimList", phimList);
-        return "list";
+        return "trangchu/list";
     }
 
     @GetMapping("/detail/{id}")
