@@ -1,5 +1,7 @@
 package com.thi.cuoiky.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +22,12 @@ public class PhimController {
 
     @GetMapping("/list")
     public String listPhim(Model model) {
-        model.addAttribute("phimList", phimService.getAllPhim());
+        List<Phim> phimList = phimService.getAllPhim();
+        // Thêm thông tin thể loại cho mỗi phim trong danh sách
+        for (Phim phim : phimList) {
+            phim.setTheLoai(phimService.layTheLoaiCuaPhim(phim.getMaPhim()));
+        }
+        model.addAttribute("phimList", phimList);
         return "list";
     }
 
