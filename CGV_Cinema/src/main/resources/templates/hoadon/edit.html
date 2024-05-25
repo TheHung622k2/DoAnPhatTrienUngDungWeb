@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chỉnh Sửa Hóa Đơn</title>
+</head>
+<body>
+    <h1>Chỉnh Sửa Hóa Đơn</h1>
+    <form th:action="@{/hoadon/edit/{id}(id=${hoaDon.maHoaDon})}" th:object="${hoaDon}" method="post">
+        <label>Mã Vé: </label>
+        <input type="text" th:field="*{ve.maVe}" />
+        <label>Tổng Tiền: </label>
+        <input type="text" th:field="*{tongTien}" />
+        <label>Ngày Tạo: </label>
+        <input type="datetime-local" th:field="*{ngayTao}" />
+        <button type="submit">Lưu</button>
+    </form>
+    <a href="/hoadon">Quay lại danh sách Hóa Đơn</a>
+</body>
+</html>

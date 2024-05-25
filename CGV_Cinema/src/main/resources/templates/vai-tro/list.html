@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách Vai Trò</title>
+</head>
+<body>
+    <h1>Danh sách Vai Trò</h1>
+    <a href="/vai-tro/add">Thêm Vai Trò</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Mã Vai Trò</th>
+                <th>Tên Vai Trò</th>
+                <th>Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="vaiTro : ${vaiTroList}">
+                <td th:text="${vaiTro.maVaiTro}"></td>
+                <td th:text="${vaiTro.tenVaiTro}"></td>
+                <td>
+                    <a th:href="@{/vai-tro/edit/{id}(id=${vaiTro.maVaiTro})}">Sửa</a>
+                    <a th:href="@{/vai-tro/delete/{id}(id=${vaiTro.maVaiTro})}">Xóa</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

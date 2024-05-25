@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chỉnh Sửa Vai Trò</title>
+</head>
+<body>
+    <h1>Chỉnh Sửa Vai Trò</h1>
+    <form th:action="@{/vai-tro/edit/{id}(id=${vaiTro.maVaiTro})}" th:object="${vaiTro}" method="post">
+        <label>Tên Vai Trò: </label>
+        <input type="text" th:field="*{tenVaiTro}" /><br>
+        <button type="submit">Lưu</button>
+    </form>
+    <a href="/vai-tro">Quay lại danh sách Vai Trò</a>
+</body>
+</html>

@@ -2,6 +2,8 @@ package com.thi.cuoiky.entities;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,6 +41,7 @@ public class NguoiDung {
 
     @Column(name = "ngay_sinh")
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date ngaySinh;
 
     @Column(name = "email", length = 255)

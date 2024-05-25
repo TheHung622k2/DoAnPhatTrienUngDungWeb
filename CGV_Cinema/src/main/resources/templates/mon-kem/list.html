@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách Món Kèm</title>
+</head>
+<body>
+    <h1>Danh sách Món Kèm</h1>
+    <a href="/mon-kem/add">Thêm Món Kèm</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Mã Món Kèm</th>
+                <th>Tên Món Kèm</th>
+                <th>Loại Đồ Kèm Thêm</th>
+                <th>Giá Bán</th>
+                <th>Mô Tả</th>
+                <th>Hình Ảnh</th>
+                <th>Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="monKem : ${monKemList}">
+                <td th:text="${monKem.maMonKem}"></td>
+                <td th:text="${monKem.tenMonKem}"></td>
+                <td th:text="${monKem.loaiDoKemThem.tenLoai}"></td>
+                <td th:text="${monKem.giaBan}"></td>
+                <td th:text="${monKem.moTa}"></td>
+                <td>
+                    <img th:src="@{${monKem.hinhAnh}}" alt="Hình ảnh món kem" width="100" />
+                </td>
+                <td>
+                    <a th:href="@{/mon-kem/edit/{id}(id=${monKem.maMonKem})}">Sửa</a>
+                    <a th:href="@{/mon-kem/delete/{id}(id=${monKem.maMonKem})}">Xóa</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

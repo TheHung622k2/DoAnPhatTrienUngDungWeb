@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chỉnh Sửa Phòng Chiếu</title>
+</head>
+<body>
+    <h1>Chỉnh Sửa Phòng Chiếu</h1>
+    <form th:action="@{/phong-chieu/edit/{id}(id=${phongChieu.maPhong})}" th:object="${phongChieu}" method="post">
+        <label>Tên Phòng: </label>
+        <input type="text" th:field="*{tenPhong}" /><br>
+        <label>Sức Chứa: </label>
+        <input type="number" th:field="*{sucChua}" /><br>
+        <button type="submit">Lưu</button>
+    </form>
+    <a href="/phong-chieu">Quay lại danh sách Phòng Chiếu</a>
+</body>
+</html>

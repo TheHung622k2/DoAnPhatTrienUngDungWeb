@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách Thể Loại</title>
+</head>
+<body>
+    <h1>Danh sách Thể Loại</h1>
+    <a href="/the-loai/add">Thêm Thể Loại</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Mã Thể Loại</th>
+                <th>Tên Thể Loại</th>
+                <th>Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="theLoai : ${theLoaiList}">
+                <td th:text="${theLoai.maTheLoai}"></td>
+                <td th:text="${theLoai.tenTheLoai}"></td>
+                <td>
+                    <a th:href="@{/the-loai/edit/{id}(id=${theLoai.maTheLoai})}">Sửa</a>
+                    <a th:href="@{/the-loai/delete/{id}(id=${theLoai.maTheLoai})}">Xóa</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

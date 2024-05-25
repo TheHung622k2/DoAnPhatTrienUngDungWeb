@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách Phòng Chiếu</title>
+</head>
+<body>
+    <h1>Danh sách Phòng Chiếu</h1>
+    <a href="/phong-chieu/add">Thêm Phòng Chiếu</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Mã Phòng</th>
+                <th>Tên Phòng</th>
+                <th>Sức Chứa</th>
+                <th>Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="phongChieu : ${phongChieuList}">
+                <td th:text="${phongChieu.maPhong}"></td>
+                <td th:text="${phongChieu.tenPhong}"></td>
+                <td th:text="${phongChieu.sucChua}"></td>
+                <td>
+                    <a th:href="@{/phong-chieu/edit/{id}(id=${phongChieu.maPhong})}">Sửa</a>
+                    <a th:href="@{/phong-chieu/delete/{id}(id=${phongChieu.maPhong})}">Xóa</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

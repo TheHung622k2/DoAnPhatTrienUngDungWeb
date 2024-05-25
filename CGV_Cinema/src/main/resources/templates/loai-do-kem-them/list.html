@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách Loại Đồ Kèm Thêm</title>
+</head>
+<body>
+    <h1>Danh sách Loại Đồ Kèm Thêm</h1>
+    <a href="/loai-do-kem-them/add">Thêm Loại Đồ Kèm Thêm</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Mã Loại Đồ Kèm Thêm</th>
+                <th>Tên Loại</th>
+                <th>Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="loaiDoKemThem : ${loaiDoKemThemList}">
+                <td th:text="${loaiDoKemThem.maLoaiDoKemThem}"></td>
+                <td th:text="${loaiDoKemThem.tenLoai}"></td>
+                <td>
+                    <a th:href="@{/loai-do-kem-them/edit/{id}(id=${loaiDoKemThem.maLoaiDoKemThem})}">Sửa</a>
+                    <a th:href="@{/loai-do-kem-them/delete/{id}(id=${loaiDoKemThem.maLoaiDoKemThem})}">Xóa</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

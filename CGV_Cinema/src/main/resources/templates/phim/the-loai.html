@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thể Loại của Phim</title>
+</head>
+<body>
+    <h1>Thể Loại của Phim</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Mã Thể Loại</th>
+                <th>Tên Thể Loại</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="theLoai : ${theLoaiList}">
+                <td th:text="${theLoai.maTheLoai}"></td>
+                <td th:text="${theLoai.tenTheLoai}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/phim">Quay lại danh sách Phim</a>
+</body>
+</html>

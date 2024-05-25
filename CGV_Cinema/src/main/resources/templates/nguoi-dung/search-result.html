@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Kết Quả Tìm Kiếm</title>
+</head>
+<body>
+    <h1>Kết Quả Tìm Kiếm</h1>
+    <div th:if="${nguoiDung != null}">
+        <p>Mã Người Dùng: <span th:text="${nguoiDung.maNguoiDung}"></span></p>
+        <p>Tên Đăng Nhập: <span th:text="${nguoiDung.tenDangNhap}"></span></p>
+        <p>Họ Tên: <span th:text="${nguoiDung.hoTen}"></span></p>
+        <p>Địa Chỉ: <span th:text="${nguoiDung.diaChi}"></span></p>
+        <p>Số Điện Thoại: <span th:text="${nguoiDung.soDienThoai}"></span></p>
+        <p>Ngày Sinh: <span th:text="${nguoiDung.ngaySinh}"></span></p>
+        <p>Email: <span th:text="${nguoiDung.email}"></span></p>
+        <p>Vai Trò: <span th:text="${nguoiDung.vaiTro.tenVaiTro}"></span></p>
+    </div>
+    <div th:if="${nguoiDung == null}">
+        <p>Không tìm thấy người dùng.</p>
+    </div>
+    <a href="/nguoi-dung">Quay lại danh sách Người Dùng</a>
+</body>
+</html>

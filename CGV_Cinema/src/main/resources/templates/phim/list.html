@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách Phim</title>
+</head>
+<body>
+    <h1>Danh sách Phim</h1>
+    <a href="/phim/add">Thêm Phim</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Mã Phim</th>
+                <th>Tên Phim</th>
+                <th>Đạo Diễn</th>
+                <th>Diễn Viên</th>
+                <th>Thời Lượng</th>
+                <th>Khởi Chiếu</th>
+                <th>Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="phim : ${phimList}">
+                <td th:text="${phim.maPhim}"></td>
+                <td th:text="${phim.tenPhim}"></td>
+                <td th:text="${phim.daoDien}"></td>
+                <td th:text="${phim.dienVien}"></td>
+                <td th:text="${phim.thoiLuong}"></td>
+                <td th:text="${phim.khoiChieu}"></td>
+                <td>
+                    <a th:href="@{/phim/edit/{id}(id=${phim.maPhim})}">Sửa</a>
+                    <a th:href="@{/phim/delete/{id}(id=${phim.maPhim})}">Xóa</a>
+                    <a th:href="@{/phim/{id}/the-loai(id=${phim.maPhim})}">Xem Thể Loại</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chỉnh Sửa Phim - Thể Loại</title>
+</head>
+<body>
+    <h1>Chỉnh Sửa Phim - Thể Loại</h1>
+    <form th:action="@{/phim-the-loai/edit/{phimId}/{theLoaiId}(phimId=${phimTheLoai.maPhim.maPhim}, theLoaiId=${phimTheLoai.maTheLoai.maTheLoai})}" th:object="${phimTheLoai}" method="post">
+        <label>Phim: </label>
+        <select th:field="*{maPhim}">
+            <option th:each="phim : ${phimList}" th:value="${phim}" th:text="${phim.tenPhim}" th:selected="${phimTheLoai.maPhim == phim}"></option>
+        </select><br>
+        <label>Thể Loại: </label>
+        <select th:field="*{maTheLoai}">
+            <option th:each="theLoai : ${theLoaiList}" th:value="${theLoai}" th:text="${theLoai.tenTheLoai}" th:selected="${phimTheLoai.maTheLoai == theLoai}"></option>
+        </select><br>
+        <button type="submit">Lưu</button>
+    </form>
+    <a href="/phim-the-loai">Quay lại danh sách Phim - Thể Loại</a>
+</body>
+</html>

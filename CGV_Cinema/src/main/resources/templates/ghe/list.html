@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách Ghế</title>
+</head>
+<body>
+    <h1>Danh sách Ghế</h1>
+    <a href="/ghe/add">Thêm Ghế</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Mã Ghế</th>
+                <th>Tên Ghế</th>
+                <th>Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="ghe : ${gheList}">
+                <td th:text="${ghe.maGhe}"></td>
+                <td th:text="${ghe.tenGhe}"></td>
+                <td>
+                    <a th:href="@{/ghe/edit/{id}(id=${ghe.maGhe})}">Sửa</a>
+                    <a th:href="@{/ghe/delete/{id}(id=${ghe.maGhe})}">Xóa</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

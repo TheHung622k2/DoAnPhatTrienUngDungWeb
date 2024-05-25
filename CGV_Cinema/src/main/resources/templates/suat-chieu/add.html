@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thêm Suất Chiếu</title>
+</head>
+<body>
+    <h1>Thêm Suất Chiếu</h1>
+    <form th:action="@{/suat-chieu/add}" th:object="${suatChieu}" method="post">
+        <label>Phim: </label>
+        <select th:field="*{phim}">
+            <option th:each="phim : ${phimList}" th:value="${phim}" th:text="${phim.tenPhim}"></option>
+        </select><br>
+        <label>Phòng Chiếu: </label>
+        <select th:field="*{phongChieu}">
+            <option th:each="phongChieu : ${phongChieuList}" th:value="${phongChieu}" th:text="${phongChieu.tenPhong}"></option>
+        </select><br>
+        <label>Thời Gian Chiếu: </label>
+        <input type="datetime-local" th:field="*{thoiGianChieu}" /><br>
+        <button type="submit">Lưu</button>
+    </form>
+    <a href="/suat-chieu">Quay lại danh sách Suất Chiếu</a>
+</body>
+</html>

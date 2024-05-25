@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thêm Phim</title>
+</head>
+<body>
+    <h1>Thêm Phim</h1>
+    <form th:action="@{/phim/add}" th:object="${phim}" method="post">
+        <label>Tên Phim: </label>
+        <input type="text" th:field="*{tenPhim}" /><br>
+        <label>Đạo Diễn: </label>
+        <input type="text" th:field="*{daoDien}" /><br>
+        <label>Diễn Viên: </label>
+        <input type="text" th:field="*{dienVien}" /><br>
+        <label>Thời Lượng: </label>
+        <input type="text" th:field="*{thoiLuong}" /><br>
+        <label>Khởi Chiếu: </label>
+        <input type="text" th:field="*{khoiChieu}" /><br>
+        <label>Mô Tả: </label>
+        <textarea th:field="*{moTa}"></textarea><br>
+        <label>Hình Ảnh: </label>
+        <input type="text" th:field="*{anh}" /><br>
+        <label>Thể Loại: </label>
+        <select th:field="*{theLoai}" multiple="multiple">
+            <option th:each="theLoai : ${theLoaiList}" th:value="${theLoai}" th:text="${theLoai.tenTheLoai}"></option>
+        </select><br>
+        <button type="submit">Lưu</button>
+    </form>
+    <a href="/phim">Quay lại danh sách Phim</a>
+</body>
+</html>

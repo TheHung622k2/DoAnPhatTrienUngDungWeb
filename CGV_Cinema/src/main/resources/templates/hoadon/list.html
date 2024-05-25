@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách Hóa Đơn</title>
+</head>
+<body>
+    <h1>Danh sách Hóa Đơn</h1>
+    <a href="/hoadon/add">Thêm Hóa Đơn</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Mã Hóa Đơn</th>
+                <th>Mã Vé</th>
+                <th>Tổng Tiền</th>
+                <th>Ngày Tạo</th>
+                <th>Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="hoaDon : ${hoaDonList}">
+                <td th:text="${hoaDon.maHoaDon}"></td>
+                <td th:text="${hoaDon.ve.maVe}"></td>
+                <td th:text="${hoaDon.tongTien}"></td>
+                <td th:text="${hoaDon.ngayTao}"></td>
+                <td>
+                    <a th:href="@{/hoadon/edit/{id}(id=${hoaDon.maHoaDon})}">Sửa</a>
+                    <a th:href="@{/hoadon/delete/{id}(id=${hoaDon.maHoaDon})}">Xóa</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

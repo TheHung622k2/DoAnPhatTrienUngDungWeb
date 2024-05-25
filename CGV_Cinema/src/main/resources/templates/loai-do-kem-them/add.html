@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thêm Loại Đồ Kèm Thêm</title>
+</head>
+<body>
+    <h1>Thêm Loại Đồ Kèm Thêm</h1>
+    <form th:action="@{/loai-do-kem-them/add}" th:object="${loaiDoKemThem}" method="post">
+        <label>Tên Loại: </label>
+        <input type="text" th:field="*{tenLoai}" />
+        <button type="submit">Lưu</button>
+    </form>
+    <a href="/loai-do-kem-them">Quay lại danh sách Loại Đồ Kèm Thêm</a>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chỉnh Sửa Món Kèm</title>
+</head>
+<body>
+    <h1>Chỉnh Sửa Món Kèm</h1>
+    <form th:action="@{/mon-kem/edit/{id}(id=${monKem.maMonKem})}" th:object="${monKem}" method="post">
+        <label>Tên Món Kèm: </label>
+        <input type="text" th:field="*{tenMonKem}" /><br>
+        <label>Loại Đồ Kèm Thêm: </label>
+        <select th:field="*{loaiDoKemThem}">
+            <option th:each="loai : ${loaiDoKemThemList}" th:value="${loai.maLoaiDoKemThem}" th:text="${loai.tenLoai}"></option>
+        </select><br>
+        <label>Giá Bán: </label>
+        <input type="text" th:field="*{giaBan}" /><br>
+        <label>Mô Tả: </label>
+        <textarea th:field="*{moTa}"></textarea><br>
+        <label>Hình Ảnh: </label>
+        <input type="text" th:field="*{hinhAnh}" /><br>
+        <button type="submit">Lưu</button>
+    </form>
+    <a href="/mon-kem">Quay lại danh sách Món Kèm</a>
+</body>
+</html>

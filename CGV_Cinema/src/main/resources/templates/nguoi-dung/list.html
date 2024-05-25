@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách Người Dùng</title>
+</head>
+<body>
+    <h1>Danh sách Người Dùng</h1>
+    <a href="/nguoi-dung/add">Thêm Người Dùng</a>
+    <form action="/nguoi-dung/search" method="get">
+        <label for="tenDangNhap">Tìm kiếm theo tên đăng nhập:</label>
+        <input type="text" id="tenDangNhap" name="tenDangNhap">
+        <button type="submit">Tìm kiếm</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Mã Người Dùng</th>
+                <th>Tên Đăng Nhập</th>
+                <th>Họ Tên</th>
+                <th>Địa Chỉ</th>
+                <th>Số Điện Thoại</th>
+                <th>Ngày Sinh</th>
+                <th>Email</th>
+                <th>Vai Trò</th>
+                <th>Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="nguoiDung : ${nguoiDungList}">
+                <td th:text="${nguoiDung.maNguoiDung}"></td>
+                <td th:text="${nguoiDung.tenDangNhap}"></td>
+                <td th:text="${nguoiDung.hoTen}"></td>
+                <td th:text="${nguoiDung.diaChi}"></td>
+                <td th:text="${nguoiDung.soDienThoai}"></td>
+                <td th:text="${nguoiDung.ngaySinh}"></td>
+                <td th:text="${nguoiDung.email}"></td>
+                <td th:text="${nguoiDung.vaiTro.tenVaiTro}"></td>
+                <td>
+                    <a th:href="@{/nguoi-dung/edit/{id}(id=${nguoiDung.maNguoiDung})}">Sửa</a>
+                    <a th:href="@{/nguoi-dung/delete/{id}(id=${nguoiDung.maNguoiDung})}">Xóa</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

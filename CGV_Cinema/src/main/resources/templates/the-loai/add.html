@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thêm Thể Loại</title>
+</head>
+<body>
+    <h1>Thêm Thể Loại</h1>
+    <form th:action="@{/the-loai/add}" th:object="${theLoai}" method="post">
+        <label>Tên Thể Loại: </label>
+        <input type="text" th:field="*{tenTheLoai}" /><br>
+        <button type="submit">Lưu</button>
+    </form>
+    <a href="/the-loai">Quay lại danh sách Thể Loại</a>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách Suất Chiếu</title>
+</head>
+<body>
+    <h1>Danh sách Suất Chiếu</h1>
+    <a href="/suat-chieu/add">Thêm Suất Chiếu</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Mã Suất Chiếu</th>
+                <th>Tên Phim</th>
+                <th>Phòng Chiếu</th>
+                <th>Thời Gian Chiếu</th>
+                <th>Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="suatChieu : ${suatChieuList}">
+                <td th:text="${suatChieu.maSuatChieu}"></td>
+                <td th:text="${suatChieu.phim.tenPhim}"></td>
+                <td th:text="${suatChieu.phongChieu.tenPhong}"></td>
+                <td th:text="${suatChieu.thoiGianChieu}"></td>
+                <td>
+                    <a th:href="@{/suat-chieu/edit/{id}(id=${suatChieu.maSuatChieu})}">Sửa</a>
+                    <a th:href="@{/suat-chieu/delete/{id}(id=${suatChieu.maSuatChieu})}">Xóa</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

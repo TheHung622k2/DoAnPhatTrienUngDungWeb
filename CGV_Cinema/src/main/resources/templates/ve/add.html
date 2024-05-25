@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thêm Vé</title>
+</head>
+<body>
+    <h1>Thêm Vé</h1>
+    <form th:action="@{/ve/add}" th:object="${ve}" method="post">
+        <label>Suất Chiếu: </label>
+        <select th:field="*{suatChieu}">
+            <option th:each="suatChieu : ${suatChieuList}" th:value="${suatChieu}" th:text="${suatChieu.maSuatChieu}"></option>
+        </select><br>
+        <label>Ghế: </label>
+        <select th:field="*{ghe}">
+            <option th:each="ghe : ${gheList}" th:value="${ghe}" th:text="${ghe.maGhe}"></option>
+        </select><br>
+        <label>Người Dùng: </label>
+        <select th:field="*{nguoiDung}">
+            <option th:each="nguoiDung : ${nguoiDungList}" th:value="${nguoiDung}" th:text="${nguoiDung.maNguoiDung}"></option>
+        </select><br>
+        <label>Món Kèm: </label>
+        <select th:field="*{monKem}">
+            <option th:each="monKem : ${monKemList}" th:value="${monKem}" th:text="${monKem.maMonKem}"></option>
+        </select><br>
+        <label>Giá Vé: </label>
+        <input type="text" th:field="*{giaVe}" /><br>
+        <button type="submit">Lưu</button>
+    </form>
+    <a href="/ve">Quay lại danh sách Vé</a>
+</body>
+</html>

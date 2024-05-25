@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chỉnh Sửa Ghế</title>
+</head>
+<body>
+    <h1>Chỉnh Sửa Ghế</h1>
+    <form th:action="@{/ghe/edit/{id}(id=${ghe.maGhe})}" th:object="${ghe}" method="post">
+        <label>Tên Ghế: </label>
+        <input type="text" th:field="*{tenGhe}" />
+        <button type="submit">Lưu</button>
+    </form>
+    <a href="/ghe">Quay lại danh sách Ghế</a>
+</body>
+</html>

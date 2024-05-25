@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách Phim - Thể Loại</title>
+</head>
+<body>
+    <h1>Danh sách Phim - Thể Loại</h1>
+    <a href="/phim-the-loai/add">Thêm Phim - Thể Loại</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Mã Phim</th>
+                <th>Tên Phim</th>
+                <th>Mã Thể Loại</th>
+                <th>Tên Thể Loại</th>
+                <th>Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="phimTheLoai : ${phimTheLoaiList}">
+                <td th:text="${phimTheLoai.maPhim.maPhim}"></td>
+                <td th:text="${phimTheLoai.maPhim.tenPhim}"></td>
+                <td th:text="${phimTheLoai.maTheLoai.maTheLoai}"></td>
+                <td th:text="${phimTheLoai.maTheLoai.tenTheLoai}"></td>
+                <td>
+                    <a th:href="@{/phim-the-loai/edit/{phimId}/{theLoaiId}(phimId=${phimTheLoai.maPhim.maPhim}, theLoaiId=${phimTheLoai.maTheLoai.maTheLoai})}">Sửa</a>
+                    <a th:href="@{/phim-the-loai/delete/{phimId}/{theLoaiId}(phimId=${phimTheLoai.maPhim.maPhim}, theLoaiId=${phimTheLoai.maTheLoai.maTheLoai})}">Xóa</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
