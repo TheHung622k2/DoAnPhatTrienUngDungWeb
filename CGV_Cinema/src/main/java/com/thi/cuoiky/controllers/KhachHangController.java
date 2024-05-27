@@ -1,20 +1,31 @@
 package com.thi.cuoiky.controllers;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.thi.cuoiky.entities.Phim;
+import com.thi.cuoiky.services.PhimService;
+
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/khach-hang")
+public class KhachHangController {
+
+    @Autowired
+    private PhimService phimService;
 
     @GetMapping("/home")
     public String adminHome(HttpSession session, Model model) {
         String greetingMessage = (String) session.getAttribute("greetingMessage");
+        List<Phim> danhSachPhim = phimService.getAllPhim(); // Lấy danh sách phim
         model.addAttribute("greetingMessage", greetingMessage);
-        return "admin/home"; // Trả về trang admin/home.html
+        model.addAttribute("danhSachPhim", danhSachPhim); // Thêm danh sách phim vào model
+        return "khach-hang/home"; // Trả về trang khach-hang/home.html
     }
 }

@@ -5,13 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Nhân Viên Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+    <style>
+        .staff-home {
+            margin-top: 50px;
+        }
+        .staff-home h1 {
+            margin-bottom: 30px;
+        }
+        .staff-menu {
+            list-style: none;
+            padding: 0;
+        }
+        .staff-menu li {
+            margin-bottom: 20px;
+        }
+        .staff-menu li a {
+            display: block;
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .staff-menu li a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .staff-menu li a i {
+            margin-right: 15px;
+        }
+    </style>
 </head>
 <body>
-	<nav th:replace="fragments/navbar :: navbar"></nav>
-    <div class="container">
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    <div class="container staff-home">
         <h1>Trang Nhân Viên</h1>
-        <!-- Nội dung của trang nhân viên -->
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="staff-menu">
+                    <li><a th:href="@{/loai-do-kem-them}"><i class="fa-solid fa-ice-cream"></i> Loại Đồ Kèm Thêm</a></li>
+                    <li><a th:href="@{/mon-kem}"><i class="fa-solid fa-cube"></i> Món Kèm</a></li>
+                    <li><a th:href="@{/phim-the-loai}"><i class="fa-solid fa-film"></i> Phim - Thể Loại</a></li>
+                    <li><a th:href="@{/phim}"><i class="fa-solid fa-video"></i> Phim</a></li>
+                    <li><a th:href="@{/khuyen-mai}"><i class="fa-solid fa-tags"></i> Khuyến Mãi</a></li>
+                    <li><a th:href="@{/khach-hang}"><i class="fa-solid fa-user"></i> Khách Hàng</a></li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <ul class="staff-menu">
+                    <li><a th:href="@{/phong-chieu}"><i class="fa-solid fa-theater-masks"></i> Phòng Chiếu</a></li>
+                    <li><a th:href="@{/suat-chieu}"><i class="fa-solid fa-clock"></i> Suất Chiếu</a></li>
+                    <li><a th:href="@{/the-loai}"><i class="fa-solid fa-tags"></i> Thể Loại</a></li>
+                    <li><a th:href="@{/ve}"><i class="fa-solid fa-ticket-alt"></i> Vé</a></li>
+                    <li><a th:href="@{/danh-gia}"><i class="fa-solid fa-star"></i> Đánh Giá</a></li>
+                    <li><a th:href="@{/bao-cao}"><i class="fa-solid fa-chart-line"></i> Báo Cáo</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"></script>
 </body>
 </html>

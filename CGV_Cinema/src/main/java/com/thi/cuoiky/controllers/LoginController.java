@@ -25,29 +25,30 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam("tenDangNhap") String tenDangNhap, @RequestParam("matKhau") String matKhau, Model model) {
+    public String login(@RequestParam("tenDangNhap") String tenDangNhap, @RequestParam("matKhau") String matKhau, Model model, HttpSession session) {
         NguoiDung nguoiDung = nguoiDungService.getNguoiDungByTenDangNhap(tenDangNhap);
         if (nguoiDung != null && nguoiDung.getMatKhau().equals(matKhau)) {
             String greetingMessage = "";
-            switch (nguoiDung.getVaiTro().getTenVaiTro()) {
+            String userRole = nguoiDung.getVaiTro().getTenVaiTro();
+            switch (userRole) {
                 case "Admin":
                     greetingMessage = "Xin chào, Quản Trị Viên!";
-                    model.addAttribute("greetingMessage", greetingMessage);
-                    return "admin/home"; // Chuyển hướng về trang của admin
+                    break;
                 case "Nhân Viên":
-                    greetingMessage = "Xin chào, " + nguoiDung.getHoTen() + "!";
-                    model.addAttribute("greetingMessage", greetingMessage);
-                    return "nhan-vien/home"; // Chuyển hướng về trang của nhân viên
+                    greetingMessage = "Xin chào, " + nguoiDung.getTenDangNhap() + "!";
+                    break;
                 case "Khách Hàng":
                     greetingMessage = "Xin chào, " + nguoiDung.getHoTen() + "!";
-                    model.addAttribute("greetingMessage", greetingMessage);
-                    return "khach-hang/home"; // Chuyển hướng về trang của khách hàng
+                    break;
             }
+            model.addAttribute("greetingMessage", greetingMessage);
+            session.setAttribute("greetingMessage", greetingMessage);
+            session.setAttribute("userRole", userRole);
+            return "redirect:/" + (userRole.equals("Admin") ? "admin/home" : userRole.equals("Nhân Viên") ? "nhan-vien/home" : "khach-hang/home");
         } else {
             model.addAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng");
             return "dang-nhap/login";
         }
-        return "dang-nhap/login";
     }
     
     @GetMapping("/logout")

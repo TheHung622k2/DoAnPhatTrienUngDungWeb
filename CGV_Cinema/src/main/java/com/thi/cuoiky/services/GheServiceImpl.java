@@ -12,8 +12,8 @@ import com.thi.cuoiky.repositories.IGhe;
 public class GheServiceImpl implements GheService {
 	@Autowired
     private IGhe gheRepository;
-
-    @Override
+	
+	@Override
     public List<Ghe> getAllGhe() {
         return gheRepository.findAll();
     }
