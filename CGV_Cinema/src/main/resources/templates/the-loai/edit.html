@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chỉnh Sửa Thể Loại</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Chỉnh Sửa Thể Loại</h1>
-    <form th:action="@{/the-loai/edit/{id}(id=${theLoai.maTheLoai})}" th:object="${theLoai}" method="post">
-        <label>Tên Thể Loại: </label>
-        <input type="text" th:field="*{tenTheLoai}" /><br>
-        <button type="submit">Lưu</button>
-    </form>
-    <a href="/the-loai">Quay lại danh sách Thể Loại</a>
+    <div class="container mt-5">
+        <h1 class="mb-4">Chỉnh Sửa Thể Loại</h1>
+        <form th:action="@{/the-loai/edit/{id}(id=${theLoai.maTheLoai})}" th:object="${theLoai}" method="post">
+            <div class="mb-3">
+                <label for="tenTheLoai" class="form-label">Tên Thể Loại:</label>
+                <input type="text" id="tenTheLoai" class="form-control" th:field="*{tenTheLoai}" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Lưu</button>
+        </form>
+        <a href="/the-loai" class="btn btn-secondary mt-3">Quay lại danh sách Thể Loại</a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

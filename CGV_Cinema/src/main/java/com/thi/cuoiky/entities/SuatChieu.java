@@ -66,4 +66,9 @@ public class SuatChieu {
     public void setThoiGianChieu(LocalDateTime thoiGianChieu) {
         this.thoiGianChieu = thoiGianChieu;
     }
+
+    // Phương thức để lấy tên suất chiếu
+    public String getTenSuatChieu() {
+        return this.phim.getTenPhim() + " - " + this.phongChieu.getTenPhong() + " - " + this.thoiGianChieu.toString();
+    }
 }

@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kết Quả Tìm Kiếm</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 50px;
+        }
+        .container {
+            max-width: 600px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Kết Quả Tìm Kiếm</h1>
-    <div th:if="${nguoiDung != null}">
-        <p>Mã Người Dùng: <span th:text="${nguoiDung.maNguoiDung}"></span></p>
-        <p>Tên Đăng Nhập: <span th:text="${nguoiDung.tenDangNhap}"></span></p>
-        <p>Họ Tên: <span th:text="${nguoiDung.hoTen}"></span></p>
-        <p>Địa Chỉ: <span th:text="${nguoiDung.diaChi}"></span></p>
-        <p>Số Điện Thoại: <span th:text="${nguoiDung.soDienThoai}"></span></p>
-        <p>Ngày Sinh: <span th:text="${nguoiDung.ngaySinh}"></span></p>
-        <p>Email: <span th:text="${nguoiDung.email}"></span></p>
-        <p>Vai Trò: <span th:text="${nguoiDung.vaiTro.tenVaiTro}"></span></p>
+    <div class="container">
+        <h1 class="mb-4">Kết Quả Tìm Kiếm</h1>
+        <!-- Display user details here -->
     </div>
-    <div th:if="${nguoiDung == null}">
-        <p>Không tìm thấy người dùng.</p>
-    </div>
-    <a href="/nguoi-dung">Quay lại danh sách Người Dùng</a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

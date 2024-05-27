@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+    <!-- Định nghĩa fragment 'navbar' -->
+    <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" th:href="@{/}">Trang chủ</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Danh mục
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <!-- Các mục dropdown -->
+                        </ul>
+                    </li>                    
+                </ul>
+                <ul class="navbar-nav ms-auto d-flex align-items-center">
+                    <li class="nav-item d-flex align-items-center" th:if="${greetingMessage != null}">
+                        <span class="navbar-text me-2" th:text="${greetingMessage}"></span>
+                        <a class="nav-link custom-link" href="#" th:href="@{/logout}">
+                            <button class="btn btn-danger">Đăng xuất</button>
+                        </a>
+                    </li>
+                    <li class="nav-item" th:if="${greetingMessage == null}">
+                        <a class="nav-link custom-link" href="#" th:href="@{/login}">
+                            <button class="btn btn-primary">Đăng nhập</button>
+                        </a>
+                    </li>
+                    <li class="nav-item" th:if="${greetingMessage == null}">
+                        <a class="nav-link custom-link" href="#" th:href="@{/register}">
+                            <button class="btn btn-success">Đăng ký</button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

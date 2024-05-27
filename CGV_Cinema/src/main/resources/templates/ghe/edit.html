@@ -1,15 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chỉnh Sửa Ghế</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 50px;
+        }
+        .container {
+            max-width: 600px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Chỉnh Sửa Ghế</h1>
-    <form th:action="@{/ghe/edit/{id}(id=${ghe.maGhe})}" th:object="${ghe}" method="post">
-        <label>Tên Ghế: </label>
-        <input type="text" th:field="*{tenGhe}" />
-        <button type="submit">Lưu</button>
-    </form>
-    <a href="/ghe">Quay lại danh sách Ghế</a>
+    <div class="container">
+        <h1 class="mb-4">Chỉnh Sửa Ghế</h1>
+        <form th:action="@{/ghe/edit/{id}(id=${ghe.maGhe})}" th:object="${ghe}" method="post">
+            <div class="mb-3">
+                <label for="tenGhe" class="form-label">Tên Ghế:</label>
+                <input type="text" class="form-control" id="tenGhe" th:field="*{tenGhe}">
+            </div>
+            <button type="submit" class="btn btn-primary">Lưu</button>
+        </form>
+        <a href="/ghe" class="btn btn-secondary mt-3">Quay lại danh sách Ghế</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

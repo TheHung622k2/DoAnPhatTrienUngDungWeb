@@ -1,24 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thể Loại của Phim</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 50px;
+        }
+        .container {
+            max-width: 960px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Thể Loại của Phim</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Mã Thể Loại</th>
-                <th>Tên Thể Loại</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="theLoai : ${theLoaiList}">
-                <td th:text="${theLoai.maTheLoai}"></td>
-                <td th:text="${theLoai.tenTheLoai}"></td>
-            </tr>
-        </tbody>
-    </table>
-    <a href="/phim">Quay lại danh sách Phim</a>
+    <div class="container">
+        <h1 class="mb-4">Thể Loại của Phim</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Mã Thể Loại</th>
+                    <th scope="col">Tên Thể Loại</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="theLoai : ${theLoaiList}">
+                    <td th:text="${theLoai.maTheLoai}"></td>
+                    <td th:text="${theLoai.tenTheLoai}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="/phim" class="btn btn-secondary">Quay lại danh sách Phim</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

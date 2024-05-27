@@ -74,10 +74,15 @@ public class PhimTheLoaiController {
 
     @PostMapping("/edit/{phimId}/{theLoaiId}")
     public String editPhimTheLoai(@PathVariable("phimId") int phimId, @PathVariable("theLoaiId") int theLoaiId, @ModelAttribute("phimTheLoai") Phim_TheLoai phimTheLoai) {
-        PhimTheLoaiId id = new PhimTheLoaiId(phimId, theLoaiId);
-        phimTheLoai.setMaPhim(phimTheLoaiService.getPhimTheLoaiById(id).getMaPhim());
-        phimTheLoai.setMaTheLoai(phimTheLoaiService.getPhimTheLoaiById(id).getMaTheLoai());
+        // Tạo ID cũ
+        PhimTheLoaiId oldId = new PhimTheLoaiId(phimId, theLoaiId);
+
+        // Xóa bản ghi cũ
+        phimTheLoaiService.deletePhimTheLoai(oldId);
+
+        // Lưu bản ghi mới
         phimTheLoaiService.savePhimTheLoai(phimTheLoai);
+
         return "redirect:/phim-the-loai"; // Chuyển hướng về trang danh sách phim-thể loại sau khi chỉnh sửa thành công
     }
 
