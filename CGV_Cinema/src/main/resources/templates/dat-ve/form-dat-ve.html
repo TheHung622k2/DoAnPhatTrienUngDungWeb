@@ -28,7 +28,12 @@
             <div class="mb-3">
                 <label for="maGhe" class="form-label">Chọn ghế</label>
                 <select class="form-select" id="maGhe" name="maGhe" required>
-                    <option th:each="ghe : ${danhSachGhe}" th:value="${ghe.maGhe}" th:text="${ghe.tenGhe}"></option>
+                    <option th:each="ghe : ${danhSachGhe}" 
+                            th:value="${ghe.maGhe}" 
+                            th:text="${ghe.tenGhe}">
+                        <span th:text="${ghe.tenGhe}"></span>
+                        <span th:if="${gheDaDatMap[maSuatChieu]?.contains(ghe.maGhe)}"> (Đã đặt)</span>
+                    </option>
                 </select>
             </div>
             
@@ -47,5 +52,36 @@
 
     <!-- Bootstrap JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let gheDaDatMap = /*[[${gheDaDatMapJson}]]*/ '[]';
+        gheDaDatMap = JSON.parse(gheDaDatMap);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const maSuatChieuSelect = document.getElementById('maSuatChieu');
+            const maGheSelect = document.getElementById('maGhe');
+            
+            function updateGheOptions() {
+                const maSuatChieu = maSuatChieuSelect.value;
+                const gheDaDat = gheDaDatMap[maSuatChieu] || [];
+
+                Array.from(maGheSelect.options).forEach(option => {
+                    const maGhe = parseInt(option.value, 10);
+                    if (gheDaDat.includes(maGhe)) {
+                        option.disabled = true;
+                        option.classList.add('text-muted');
+                        option.textContent = `${option.textContent} (Đã đặt)`;
+                    } else {
+                        option.disabled = false;
+                        option.classList.remove('text-muted');
+                    }
+                });
+            }
+
+            maSuatChieuSelect.addEventListener('change', updateGheOptions);
+            updateGheOptions(); // Call once to initialize on page load
+        });
+        /*]]>*/
+    </script>
 </body>
 </html>
