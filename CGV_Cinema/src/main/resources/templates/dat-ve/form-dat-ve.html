@@ -12,39 +12,62 @@
     <!-- Container for booking form -->
     <div class="container mt-5">
         <h2 class="mb-4">Đặt vé</h2>
-        <form th:action="@{/dat-ve/dat}" method="post">
+
+        <!-- Error Message -->
+        <div id="error-message" class="alert alert-danger d-none" role="alert">
+            Vui lòng chọn ghế trước khi đặt vé.
+        </div>
+
+        <form id="datVeForm" th:action="@{/dat-ve/dat}" method="post" onsubmit="return validateForm()">
             <input type="hidden" name="maNguoiDung" th:value="${maNguoiDung}">
             <input type="hidden" name="giaVe" th:value="${giaVeMacDinh}">
             
-            <!-- Screening time selection -->
-            <div class="mb-3">
-                <label for="maSuatChieu" class="form-label">Suất chiếu</label>
-                <select class="form-select" id="maSuatChieu" name="maSuatChieu" required>
-                    <option th:each="suatChieu : ${danhSachSuatChieu}" th:value="${suatChieu.maSuatChieu}" th:text="${suatChieu.tenSuatChieu}"></option>
-                </select>
-            </div>
-            
-            <!-- Seat selection -->
-            <div class="mb-3">
-                <label for="maGhe" class="form-label">Chọn ghế</label>
-                <select class="form-select" id="maGhe" name="maGhe" required>
-                    <option th:each="ghe : ${danhSachGhe}" 
-                            th:value="${ghe.maGhe}" 
-                            th:text="${ghe.tenGhe}">
-                        <span th:text="${ghe.tenGhe}"></span>
-                        <span th:if="${gheDaDatMap[maSuatChieu]?.contains(ghe.maGhe)}"> (Đã đặt)</span>
-                    </option>
-                </select>
-            </div>
-            
-            <!-- Add-ons selection -->
-            <div class="mb-3">
-                <label for="maMonKem" class="form-label">Chọn món kèm</label>
-                <select class="form-select" id="maMonKem" name="maMonKem">
-                    <option th:each="monKem : ${danhSachMonKem}" th:value="${monKem.maMonKem}" th:text="${monKem.tenMonKem}"></option>
-                </select>
-            </div>
-            
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Phim</th>
+                        <th>Phòng chiếu</th>
+                        <th>Thời gian chiếu</th>
+                        <th>Chọn ghế</th>
+                        <th>Chọn món kèm</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <span th:text="${tenPhim}"></span>
+                        </td>
+                        <td>
+                            <span id="tenPhongChieu"></span>
+                        </td>
+                        <td>
+                            <select class="form-select" id="maSuatChieu" name="maSuatChieu" required>
+                                <option th:each="suatChieu : ${danhSachSuatChieu}" th:value="${suatChieu['maSuatChieu']}">
+                                    <span th:text="${suatChieu['thoiGianChieu']}"></span>
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-select" id="maGhe" name="maGhe" required>
+                                <option value="">Chọn ghế</option>
+                                <option th:each="ghe : ${danhSachGhe}" 
+                                        th:value="${ghe.maGhe}" 
+                                        th:text="${ghe.tenGhe}">
+                                    <span th:text="${ghe.tenGhe}"></span>
+                                    <span th:if="${gheDaDatMap[maSuatChieu]?.contains(ghe.maGhe)}"> (Đã đặt)</span>
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-select" id="maMonKem" name="maMonKem">
+                                <option value="">Không chọn món kèm</option>
+                                <option th:each="monKem : ${danhSachMonKem}" th:value="${monKem.maMonKem}" th:text="${monKem.tenMonKem}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
             <!-- Submit button -->
             <button type="submit" class="btn btn-primary">Đặt vé</button>
         </form>
@@ -60,7 +83,10 @@
         document.addEventListener('DOMContentLoaded', function () {
             const maSuatChieuSelect = document.getElementById('maSuatChieu');
             const maGheSelect = document.getElementById('maGhe');
+            const tenPhongChieuSpan = document.getElementById('tenPhongChieu');
             
+            const suatChieuData = /*[[${danhSachSuatChieu}]]*/ '[]';
+
             function updateGheOptions() {
                 const maSuatChieu = maSuatChieuSelect.value;
                 const gheDaDat = gheDaDatMap[maSuatChieu] || [];
@@ -78,9 +104,35 @@
                 });
             }
 
-            maSuatChieuSelect.addEventListener('change', updateGheOptions);
+            function updatePhongChieu() {
+                const maSuatChieu = maSuatChieuSelect.value;
+                const suatChieu = suatChieuData.find(sc => sc.maSuatChieu == maSuatChieu);
+                if (suatChieu) {
+                    tenPhongChieuSpan.textContent = suatChieu.tenPhong;
+                }
+            }
+
+            maSuatChieuSelect.addEventListener('change', () => {
+                updateGheOptions();
+                updatePhongChieu();
+            });
+
             updateGheOptions(); // Call once to initialize on page load
+            updatePhongChieu(); // Call once to initialize on page load
         });
+
+        function validateForm() {
+            const maGheSelect = document.getElementById('maGhe');
+            const errorMessage = document.getElementById('error-message');
+
+            if (maGheSelect.value === "") {
+                errorMessage.classList.remove('d-none');
+                return false;
+            }
+
+            errorMessage.classList.add('d-none');
+            return true;
+        }
         /*]]>*/
     </script>
 </body>

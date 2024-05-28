@@ -1,6 +1,7 @@
 package com.thi.cuoiky.controllers;
 
 import java.math.BigDecimal;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,9 +32,6 @@ import jakarta.servlet.http.HttpSession;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 @Controller
 @RequestMapping("/dat-ve")
 public class DatVeController {
@@ -60,45 +58,92 @@ public class DatVeController {
         List<MonKem> danhSachMonKem = monKemService.getAllMonKem();
         Integer maNguoiDung = (Integer) session.getAttribute("maNguoiDung");
 
+        // Định dạng thời gian chiếu
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        List<Map<String, String>> danhSachSuatChieuFormatted = danhSachSuatChieu.stream()
+                .map(suatChieu -> Map.of(
+                        "maSuatChieu", suatChieu.getMaSuatChieu().toString(),
+                        "tenPhim", suatChieu.getPhim().getTenPhim(),
+                        "tenPhong", suatChieu.getPhongChieu().getTenPhong(),
+                        "thoiGianChieu", suatChieu.getThoiGianChieu().format(formatter)
+                ))
+                .collect(Collectors.toList());
+
+        // Lấy tên phim từ danh sách suất chiếu
+        String tenPhim = danhSachSuatChieu.get(0).getPhim().getTenPhim();
+
         // Lấy danh sách ghế đã được đặt
-        Map<Integer, List<Integer>> gheDaDatMap = new HashMap<>();
-        for (SuatChieu suatChieu : danhSachSuatChieu) {
-            List<Ve> veDaDat = veService.getVeBySuatChieuId(suatChieu.getMaSuatChieu());
-            List<Integer> gheDaDat = veDaDat.stream().map(ve -> ve.getGhe().getMaGhe()).collect(Collectors.toList());
-            gheDaDatMap.put(suatChieu.getMaSuatChieu(), gheDaDat);
-        }
+        Map<Integer, List<Integer>> gheDaDatMap = danhSachSuatChieu.stream()
+                .collect(Collectors.toMap(
+                        SuatChieu::getMaSuatChieu,
+                        suatChieu -> veService.getVeBySuatChieuId(suatChieu.getMaSuatChieu())
+                                .stream()
+                                .map(ve -> ve.getGhe().getMaGhe())
+                                .collect(Collectors.toList())
+                ));
 
         ObjectMapper objectMapper = new ObjectMapper();
         String gheDaDatMapJson = objectMapper.writeValueAsString(gheDaDatMap);
 
-        model.addAttribute("danhSachSuatChieu", danhSachSuatChieu);
+        model.addAttribute("danhSachSuatChieu", danhSachSuatChieuFormatted);
         model.addAttribute("danhSachGhe", danhSachGhe);
         model.addAttribute("danhSachMonKem", danhSachMonKem);
         model.addAttribute("maNguoiDung", maNguoiDung);
         model.addAttribute("giaVeMacDinh", BigDecimal.valueOf(90000));
         model.addAttribute("gheDaDatMapJson", gheDaDatMapJson);
+        model.addAttribute("tenPhim", tenPhim);
 
         return "dat-ve/form-dat-ve";
     }
 
     @PostMapping("/dat")
     public String datVe(@RequestParam("maSuatChieu") Integer maSuatChieu, 
-                        @RequestParam("maGhe") Integer maGhe, 
-                        @RequestParam("maMonKem") Integer maMonKem, 
+                        @RequestParam(value = "maGhe", required = true) Integer maGhe, 
+                        @RequestParam(value = "maMonKem", required = false) Integer maMonKem, 
                         @RequestParam("maNguoiDung") Integer maNguoiDung, 
-                        @RequestParam("giaVe") BigDecimal giaVe, Model model) {
+                        @RequestParam("giaVe") BigDecimal giaVe, Model model) throws JsonProcessingException {
+
+        if (maGhe == null) {
+            model.addAttribute("error", "Vui lòng chọn ghế.");
+            return "redirect:/dat-ve/" + maSuatChieu;  // or the appropriate path to your form
+        }
 
         // Kiểm tra ghế đã được đặt chưa
         List<Ve> veDaDat = veService.getVeBySuatChieuId(maSuatChieu);
         boolean gheDaDat = veDaDat.stream().anyMatch(ve -> ve.getGhe().getMaGhe().equals(maGhe));
         if (gheDaDat) {
+            List<SuatChieu> danhSachSuatChieu = suatChieuService.getSuatChieuByPhimId(maSuatChieu);
+            List<Ghe> danhSachGhe = gheService.getAllGhe();
+            List<MonKem> danhSachMonKem = monKemService.getAllMonKem();
+            
+            // Lấy danh sách ghế đã được đặt
+            Map<Integer, List<Integer>> gheDaDatMap = new HashMap<>();
+            for (SuatChieu suatChieu : danhSachSuatChieu) {
+                veDaDat = veService.getVeBySuatChieuId(suatChieu.getMaSuatChieu());
+                List<Integer> gheDaDatList = veDaDat.stream().map(ve -> ve.getGhe().getMaGhe()).collect(Collectors.toList());
+                gheDaDatMap.put(suatChieu.getMaSuatChieu(), gheDaDatList);
+            }
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String gheDaDatMapJson = objectMapper.writeValueAsString(gheDaDatMap);
+
+            model.addAttribute("danhSachSuatChieu", danhSachSuatChieu);
+            model.addAttribute("danhSachGhe", danhSachGhe);
+            model.addAttribute("danhSachMonKem", danhSachMonKem);
+            model.addAttribute("maNguoiDung", maNguoiDung);
+            model.addAttribute("giaVeMacDinh", BigDecimal.valueOf(90000));
+            model.addAttribute("gheDaDatMapJson", gheDaDatMapJson);
+
             model.addAttribute("error", "Ghế này đã được đặt. Vui lòng chọn ghế khác.");
-            return "redirect:/dat-ve/" + maSuatChieu;
+            return "dat-ve/form-dat-ve";
         }
 
         SuatChieu suatChieu = suatChieuService.getSuatChieuById(maSuatChieu);
         Ghe ghe = gheService.getGheById(maGhe);
-        MonKem monKem = monKemService.getMonKemById(maMonKem);
+        MonKem monKem = null;
+        if (maMonKem != null && maMonKem != 0) {
+            monKem = monKemService.getMonKemById(maMonKem);
+        }
         NguoiDung nguoiDung = nguoiDungService.getNguoiDungById(maNguoiDung);
 
         Ve ve = new Ve();
@@ -113,4 +158,5 @@ public class DatVeController {
         model.addAttribute("message", "Đặt vé thành công!");
         return "redirect:/khach-hang/home";
     }
+
 }
