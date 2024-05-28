@@ -44,6 +44,7 @@ public class LoginController {
             model.addAttribute("greetingMessage", greetingMessage);
             session.setAttribute("greetingMessage", greetingMessage);
             session.setAttribute("userRole", userRole);
+            session.setAttribute("maNguoiDung", nguoiDung.getMaNguoiDung());
             return "redirect:/" + (userRole.equals("Admin") ? "admin/home" : userRole.equals("Nhân Viên") ? "nhan-vien/home" : "khach-hang/home");
         } else {
             model.addAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng");

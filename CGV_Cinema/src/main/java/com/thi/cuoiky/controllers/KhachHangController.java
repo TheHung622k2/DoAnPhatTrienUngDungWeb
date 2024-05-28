@@ -23,9 +23,11 @@ public class KhachHangController {
     @GetMapping("/home")
     public String adminHome(HttpSession session, Model model) {
         String greetingMessage = (String) session.getAttribute("greetingMessage");
+        Integer maNguoiDung = (Integer) session.getAttribute("maNguoiDung"); // Lấy maNguoiDung từ session
         List<Phim> danhSachPhim = phimService.getAllPhim(); // Lấy danh sách phim
         model.addAttribute("greetingMessage", greetingMessage);
         model.addAttribute("danhSachPhim", danhSachPhim); // Thêm danh sách phim vào model
+        model.addAttribute("maNguoiDung", maNguoiDung); // Thêm maNguoiDung vào model
         return "khach-hang/home"; // Trả về trang khach-hang/home.html
     }
 }

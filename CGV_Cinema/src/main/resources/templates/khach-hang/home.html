@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Danh sách Phim</title>
-    <link rel="stylesheet" href="/css_tu_tao/style.css">
-    <!-- Liên kết tới tệp CSS của Bootstrap -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 	<body>
@@ -33,7 +31,7 @@
 		                    <strong>Khởi chiếu:</strong>
 		                    <span th:text="${phim.khoiChieu}"></span>
 		                </p>
-		                <button class="btn mt-3 btn-danger" style="font-size: 14px; padding: 6px 10px; width: 85px; margin: 0 auto;">Mua vé</button>
+		                <a th:href="@{/dat-ve/{maPhim}(maPhim=${phim.maPhim})}" class="btn mt-3 btn-danger" style="font-size: 14px; padding: 6px 10px; width: 85px; margin: 0 auto;">Mua vé</a>
 		            </div>
 		        </div>
 		    </div>
