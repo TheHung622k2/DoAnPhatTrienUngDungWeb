@@ -17,7 +17,7 @@
 <body>
     <div class="container">
         <h1 class="mb-4">Thêm Món Kèm</h1>
-        <form th:action="@{/mon-kem/add}" th:object="${monKem}" method="post">
+        <form th:action="@{/mon-kem/add}" th:object="${monKem}" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="tenMonKem" class="form-label">Tên Món Kèm:</label>
                 <input type="text" class="form-control" id="tenMonKem" th:field="*{tenMonKem}">
@@ -37,8 +37,8 @@
                 <textarea class="form-control" id="moTa" th:field="*{moTa}"></textarea>
             </div>
             <div class="mb-3">
-                <label for="hinhAnh" class="form-label">Hình Ảnh:</label>
-                <input type="text" class="form-control" id="hinhAnh" th:field="*{hinhAnh}">
+                <label for="file" class="form-label">Hình Ảnh:</label>
+                <input type="file" class="form-control" id="file" name="file">
             </div>
             <button type="submit" class="btn btn-primary">Lưu</button>
         </form>
