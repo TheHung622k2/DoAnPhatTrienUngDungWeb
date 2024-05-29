@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,9 @@ public class MonKemController {
             try {
                 String fileName = file.getOriginalFilename();
                 Path path = Paths.get(UPLOAD_DIR + fileName);
-                Files.copy(file.getInputStream(), path);
+                
+                // Ghi đè tệp hiện có nếu đã tồn tại
+                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
                 monKem.setHinhAnh("food_and_drink/" + fileName);
             } catch (IOException e) {
@@ -89,7 +92,9 @@ public class MonKemController {
             try {
                 String fileName = file.getOriginalFilename();
                 Path path = Paths.get(UPLOAD_DIR + fileName);
-                Files.copy(file.getInputStream(), path);
+                
+                // Ghi đè tệp hiện có nếu đã tồn tại
+                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
                 monKem.setHinhAnh("food_and_drink/" + fileName);
             } catch (IOException e) {

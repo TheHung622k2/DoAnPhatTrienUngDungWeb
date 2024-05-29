@@ -7,15 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.thi.cuoiky.entities.Ghe;
 import com.thi.cuoiky.repositories.IGhe;
-import com.thi.cuoiky.repositories.IVe;
 
 @Service
 public class GheServiceImpl implements GheService {
 	@Autowired
     private IGhe gheRepository;
-	
-	@Autowired
-    private IVe veRepository;
 	
 	@Override
     public List<Ghe> getAllGhe() {
