@@ -4,40 +4,52 @@
     <meta charset="UTF-8">
     <title>Danh sách Phim</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <style>
+        /* CSS cho hiệu ứng zoom ảnh */
+        .card-img-hover {
+            transition: transform 0.5s ease; /* Hiệu ứng chuyển đổi mượt mà */
+            display: block; /* Đảm bảo ảnh hiển thị đúng */
+            width: 185px;
+            height: 260px;
+            margin: 0 auto;
+        }
+        
+        .card-img-hover:hover {
+            transform: scale(1.1); /* Phóng to ảnh khi hover */
+        }
+    </style>
 </head>
-	<body>
-		<nav th:replace="~{fragments/navbar :: navbar}"></nav>
-		<div class="container mt-5">
-		    <div class="row">
-		        <!-- Sử dụng thẻ div để tạo một hàng mới -->
-		        <div th:each="phim, rowStat : ${danhSachPhim}" class="col-md-3 mb-4">
-		            <!-- Sử dụng lặp lại thymeleaf để hiển thị từng phim -->
-		            <div class="card h-100">
-		                <img th:src="${phim.anh}" class="mb-2" alt="Ảnh phim" style="width: 185px; height: 260px; margin: 0 auto;">
-		                <h5 class="card-title mb-3" style="margin: 0 auto;">
-		                    <strong th:text="${phim.tenPhim}"></strong>
-		                </h5>
-		                <p class="card-text mb-2" style="margin: 0 auto;">
-		                    <strong>Thể loại:</strong>
-		                    <span th:each="theLoai, iterStat : ${phim.theLoai}">
-		                        <span th:text="${theLoai.tenTheLoai}"></span><span th:if="${!iterStat.last}">, </span>
-		                    </span>
-		                </p>
-		                <p class="card-text mb-2" style="margin: 0 auto;">
-		                    <strong>Thời lượng:</strong>
-		                    <span th:text="${phim.thoiLuong}"></span>
-		                </p>
-		                <p class="card-text mb-0" style="margin: 0 auto;">
-		                    <strong>Khởi chiếu:</strong>
-		                    <span th:text="${phim.khoiChieu}"></span>
-		                </p>
-		                <a th:href="@{/dat-ve/{maPhim}(maPhim=${phim.maPhim})}" class="btn mt-3 btn-danger" style="font-size: 14px; padding: 6px 10px; width: 85px; margin: 0 auto;">Mua vé</a>
-		            </div>
-		        </div>
-		    </div>
-		</div>
-		<nav th:replace="~{fragments/footer :: footer}"></nav>
-		<!-- Liên kết tới tệp JavaScript của Bootstrap (nếu cần) -->
-		<script src="/js/bootstrap.bundle.min.js"></script>
-	</body>
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    <div class="container mt-5">
+        <div class="row">
+            <div th:each="phim, rowStat : ${danhSachPhim}" class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <!-- Áp dụng class mới cho ảnh -->
+                    <img th:src="${phim.anh}" class="card-img-hover mb-2" alt="Ảnh phim">
+                    <h5 class="card-title mb-3" style="margin: 0 auto;">
+                        <strong th:text="${phim.tenPhim}"></strong>
+                    </h5>
+                    <p class="card-text mb-2" style="margin: 0 auto;">
+                        <strong>Thể loại:</strong>
+                        <span th:each="theLoai, iterStat : ${phim.theLoai}">
+                            <span th:text="${theLoai.tenTheLoai}"></span><span th:if="${!iterStat.last}">, </span>
+                        </span>
+                    </p>
+                    <p class="card-text mb-2" style="margin: 0 auto;">
+                        <strong>Thời lượng:</strong>
+                        <span th:text="${phim.thoiLuong}"></span>
+                    </p>
+                    <p class="card-text mb-0" style="margin: 0 auto;">
+                        <strong>Khởi chiếu:</strong>
+                        <span th:text="${phim.khoiChieu}"></span>
+                    </p>
+                    <a th:href="@{/dat-ve/{maPhim}(maPhim=${phim.maPhim})}" class="btn mt-3 btn-danger" style="font-size: 14px; padding: 6px 10px; width: 85px; margin: 0 auto;">Mua vé</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav th:replace="~{fragments/footer :: footer}"></nav>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
