@@ -77,36 +77,29 @@ public class MonKemController {
     public String showEditMonKemForm(@PathVariable("id") int id, Model model) {
         MonKem monKem = monKemService.getMonKemById(id);
         List<LoaiDoKemThem> loaiDoKemThemList = loaiDoKemThemService.getAllLoaiDoKemThem();
-        if (monKem != null) {
-            model.addAttribute("monKem", monKem);
-            model.addAttribute("loaiDoKemThemList", loaiDoKemThemList);
-            return "mon-kem/edit"; // Trả về tên của Thymeleaf template để hiển thị form chỉnh sửa món kem
-        } else {
-            return "redirect:/mon-kem"; // Chuyển hướng về trang danh sách món kem nếu không tìm thấy món kem với id đã cho
-        }
+        model.addAttribute("monKem", monKem);
+        model.addAttribute("loaiDoKemThemList", loaiDoKemThemList);
+        return "mon-kem/test"; // Trả về trang chỉnh sửa món kèm
     }
 
-    @PostMapping("/edit/{id}")
-    public String editMonKem(@PathVariable("id") int id, @ModelAttribute("monKem") MonKem monKem, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+    @PostMapping("/edit")
+    public String editMonKem(@ModelAttribute("monKem") MonKem monKem, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         if (file != null && !file.isEmpty()) {
             try {
                 String fileName = file.getOriginalFilename();
                 Path path = Paths.get(UPLOAD_DIR + fileName);
-                
-                // Ghi đè tệp hiện có nếu đã tồn tại
                 Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-
                 monKem.setHinhAnh("food_and_drink/" + fileName);
             } catch (IOException e) {
                 e.printStackTrace();
                 redirectAttributes.addFlashAttribute("message", "File upload failed!");
-                return "redirect:/mon-kem/edit/" + id;
+                return "redirect:/mon-kem/test/" + monKem.getMaMonKem();
             }
         }
-        monKem.setMaMonKem(id);
         monKemService.saveMonKem(monKem);
-        return "redirect:/mon-kem"; // Chuyển hướng về trang danh sách món kem sau khi chỉnh sửa thành công
+        return "redirect:/mon-kem"; // Chuyển hướng về trang danh sách món kèm sau khi chỉnh sửa thành công
     }
+
 
     @GetMapping("/delete/{id}")
     public String deleteMonKem(@PathVariable("id") int id) {
