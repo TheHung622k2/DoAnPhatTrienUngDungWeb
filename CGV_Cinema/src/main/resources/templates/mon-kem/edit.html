@@ -86,7 +86,7 @@
             <div class="mb-3">
                 <label for="file" class="form-label">Hình Ảnh:</label>
                 <div class="image-preview" id="imagePreview" th:classappend="${monKem.hinhAnh != null ? 'image-loaded' : ''}">
-                    <img id="preview" th:if="${monKem.hinhAnh}" th:src="@{/food_and_drink/${monKem.hinhAnh}}" alt="Image preview" style="display: block;">
+                    <img id="preview" th:if="${monKem.hinhAnh}" th:src="@{'/' + ${monKem.hinhAnh}}" alt="Image preview" style="display: block;">
                     <input type="file" class="form-control" id="file" name="file" onchange="previewImage(event)">
                 </div>
                 <div class="image-name" id="imageName" th:text="${monKem.hinhAnh != null ? monKem.hinhAnh : 'Chưa chọn tệp nào'}">Chưa chọn tệp nào</div>

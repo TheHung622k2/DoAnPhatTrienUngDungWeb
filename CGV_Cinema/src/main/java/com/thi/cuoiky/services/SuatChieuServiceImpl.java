@@ -1,8 +1,12 @@
 package com.thi.cuoiky.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.thi.cuoiky.entities.SuatChieu;
@@ -43,4 +47,17 @@ public class SuatChieuServiceImpl implements SuatChieuService {
     public List<SuatChieu> getSuatChieuByPhongChieuId(int phongChieuId) {
         return suatChieuRepository.findByPhongChieu_MaPhong(phongChieuId);
     }
+    
+    @Override
+    public List<SuatChieu> getSuatChieuByThoiGianChieu(LocalDateTime startTime, LocalDateTime endTime) {
+        return suatChieuRepository.findByThoiGianChieuBetween(startTime, endTime);
+    }
+    
+    @Override
+    public Page<SuatChieu> getSuatChieuPage(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return suatChieuRepository.findAllByOrderByThoiGianChieuAsc(pageable);
+    }
+    
+    
 }

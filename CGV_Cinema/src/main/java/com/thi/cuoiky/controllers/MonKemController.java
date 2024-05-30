@@ -79,11 +79,11 @@ public class MonKemController {
         List<LoaiDoKemThem> loaiDoKemThemList = loaiDoKemThemService.getAllLoaiDoKemThem();
         model.addAttribute("monKem", monKem);
         model.addAttribute("loaiDoKemThemList", loaiDoKemThemList);
-        return "mon-kem/test"; // Trả về trang chỉnh sửa món kèm
+        return "mon-kem/edit"; // Trả về trang chỉnh sửa món kèm
     }
 
-    @PostMapping("/edit")
-    public String editMonKem(@ModelAttribute("monKem") MonKem monKem, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+    @PostMapping("/edit/{id}")
+    public String editMonKem(@PathVariable("id") int id, @ModelAttribute("monKem") MonKem monKem, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         if (file != null && !file.isEmpty()) {
             try {
                 String fileName = file.getOriginalFilename();
@@ -93,11 +93,15 @@ public class MonKemController {
             } catch (IOException e) {
                 e.printStackTrace();
                 redirectAttributes.addFlashAttribute("message", "File upload failed!");
-                return "redirect:/mon-kem/test/" + monKem.getMaMonKem();
+                return "redirect:/mon-kem/edit/" + id;
             }
+        } else {
+            MonKem existingMonKem = monKemService.getMonKemById(id);
+            monKem.setHinhAnh(existingMonKem.getHinhAnh());
         }
+        monKem.setMaMonKem(id); // Ensure the ID is set correctly
         monKemService.saveMonKem(monKem);
-        return "redirect:/mon-kem"; // Chuyển hướng về trang danh sách món kèm sau khi chỉnh sửa thành công
+        return "redirect:/mon-kem";
     }
 
 

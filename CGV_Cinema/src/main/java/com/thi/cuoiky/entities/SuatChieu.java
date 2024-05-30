@@ -1,6 +1,9 @@
 package com.thi.cuoiky.entities;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -70,5 +73,13 @@ public class SuatChieu {
     // Phương thức để lấy tên suất chiếu
     public String getTenSuatChieu() {
         return this.phim.getTenPhim() + " - " + this.phongChieu.getTenPhong() + " - " + this.thoiGianChieu.toString();
+    }
+    
+    // Phương thức để lấy thời gian chiếu đã được định dạng bao gồm thứ
+    public String getFormattedThoiGianChieu() {
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        String dayOfWeek = this.thoiGianChieu.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("vi"));
+        String month = this.thoiGianChieu.getMonth().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("vi"));
+        return dayOfWeek + ", " + this.thoiGianChieu.getDayOfMonth() + " " + month + " " + this.thoiGianChieu.getYear() + ", " + this.thoiGianChieu.format(timeFormatter);
     }
 }
