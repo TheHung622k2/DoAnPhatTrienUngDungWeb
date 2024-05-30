@@ -9,22 +9,24 @@
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">Thêm Suất Chiếu</h1>
-        <form th:action="@{/suat-chieu/add}" th:object="${suatChieu}" method="post">
+        <form th:action="@{/suat-chieu/add}" method="post">
             <div class="mb-3">
-                <label for="phim" class="form-label">Phim:</label>
-                <select id="phim" class="form-select" th:field="*{phim}">
-                    <option th:each="phim : ${phimList}" th:value="${phim}" th:text="${phim.tenPhim}"></option>
+                <label for="phimId" class="form-label">Phim:</label>
+                <select id="phimId" class="form-select" name="phimId" required>
+                    <option value="" th:text="'--Chọn Phim--'"></option>
+                    <option th:each="phim : ${phimList}" th:value="${phim.maPhim}" th:text="${phim.tenPhim}"></option>
                 </select>
             </div>
             <div class="mb-3">
-                <label for="phongChieu" class="form-label">Phòng Chiếu:</label>
-                <select id="phongChieu" class="form-select" th:field="*{phongChieu}">
-                    <option th:each="phongChieu : ${phongChieuList}" th:value="${phongChieu}" th:text="${phongChieu.tenPhong}"></option>
+                <label for="phongChieuId" class="form-label">Phòng Chiếu:</label>
+                <select id="phongChieuId" class="form-select" name="phongChieuId" required>
+                    <option value="" th:text="'--Chọn Phòng Chiếu--'"></option>
+                    <option th:each="phongChieu : ${phongChieuList}" th:value="${phongChieu.maPhong}" th:text="${phongChieu.tenPhong}"></option>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="thoiGianChieu" class="form-label">Thời Gian Chiếu:</label>
-                <input type="datetime-local" id="thoiGianChieu" class="form-control" th:field="*{thoiGianChieu}" />
+                <input type="datetime-local" id="thoiGianChieu" class="form-control" name="thoiGianChieu" required />
             </div>
             <button type="submit" class="btn btn-primary">Lưu</button>
         </form>

@@ -45,12 +45,17 @@ public class SuatChieuServiceImpl implements SuatChieuService {
 
     @Override
     public List<SuatChieu> getSuatChieuByPhongChieuId(int phongChieuId) {
-        return suatChieuRepository.findByPhongChieu_MaPhong(phongChieuId);
+    	return suatChieuRepository.findByPhongChieu_MaPhongOrderByThoiGianChieuAsc(phongChieuId);
     }
     
     @Override
     public List<SuatChieu> getSuatChieuByThoiGianChieu(LocalDateTime startTime, LocalDateTime endTime) {
-        return suatChieuRepository.findByThoiGianChieuBetween(startTime, endTime);
+        return suatChieuRepository.findByThoiGianChieuBetweenOrderByThoiGianChieuAsc(startTime, endTime);
+    }
+    
+    @Override
+    public List<SuatChieu> getSuatChieuByPhimAndPhongChieu(int phimId, int phongChieuId) {
+        return suatChieuRepository.findByPhim_MaPhimAndPhongChieu_MaPhongOrderByThoiGianChieuAsc(phimId, phongChieuId);
     }
     
     @Override
@@ -59,5 +64,9 @@ public class SuatChieuServiceImpl implements SuatChieuService {
         return suatChieuRepository.findAllByOrderByThoiGianChieuAsc(pageable);
     }
     
-    
+    @Override
+    public Page<SuatChieu> getSuatChieuByThoiGianChieu(LocalDateTime startTime, LocalDateTime endTime, int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return suatChieuRepository.findByThoiGianChieuBetweenOrderByThoiGianChieuAsc(startTime, endTime, pageable);
+    }
 }

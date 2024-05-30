@@ -13,6 +13,9 @@ import com.thi.cuoiky.entities.SuatChieu;
 public interface ISuatChieu extends JpaRepository<SuatChieu, Integer>, PagingAndSortingRepository<SuatChieu, Integer>{
 	List<SuatChieu> findByPhim_MaPhim(Integer phimId);
     List<SuatChieu> findByPhongChieu_MaPhong(Integer phongChieuId);
-    List<SuatChieu> findByThoiGianChieuBetween(LocalDateTime startTime, LocalDateTime endTime);
+    List<SuatChieu> findByPhongChieu_MaPhongOrderByThoiGianChieuAsc(Integer phongChieuId);
+    List<SuatChieu> findByThoiGianChieuBetweenOrderByThoiGianChieuAsc(LocalDateTime startTime, LocalDateTime endTime);
+    List<SuatChieu> findByPhim_MaPhimAndPhongChieu_MaPhongOrderByThoiGianChieuAsc(Integer phimId, Integer phongChieuId);
     Page<SuatChieu> findAllByOrderByThoiGianChieuAsc(Pageable pageable);
+    Page<SuatChieu> findByThoiGianChieuBetweenOrderByThoiGianChieuAsc(LocalDateTime startTime, LocalDateTime endTime, Pageable pageable);
 }

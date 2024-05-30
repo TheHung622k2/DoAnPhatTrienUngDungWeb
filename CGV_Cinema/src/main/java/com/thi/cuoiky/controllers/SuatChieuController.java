@@ -46,7 +46,10 @@ public class SuatChieuController {
         List<SuatChieu> suatChieuList;
         int totalPages = 0; 
         
-        if (phimId != null && phimId != 0) {
+        if (phimId != null && phimId != 0 && phongChieuId != null && phongChieuId != 0) {
+            suatChieuList = suatChieuService.getSuatChieuByPhimAndPhongChieu(phimId, phongChieuId);
+            totalPages = 1; 
+        } else if (phimId != null && phimId != 0) {
             suatChieuList = suatChieuService.getSuatChieuByPhimId(phimId);
             totalPages = 1; 
         } else if (phongChieuId != null && phongChieuId != 0) {
@@ -65,6 +68,8 @@ public class SuatChieuController {
         model.addAttribute("suatChieuList", suatChieuList);
         model.addAttribute("phimList", phimService.getAllPhim());
         model.addAttribute("phongChieuList", phongChieuService.getAllPhongChieu());
+        model.addAttribute("selectedPhimId", phimId);
+        model.addAttribute("selectedPhongChieuId", phongChieuId);
         model.addAttribute("totalPages", totalPages);
         return "suat-chieu/list";
     }
@@ -81,9 +86,19 @@ public class SuatChieuController {
     }
 
     @PostMapping("/add")
-    public String addSuatChieu(@ModelAttribute("suatChieu") SuatChieu suatChieu) {
+    public String addSuatChieu(@RequestParam("phimId") Integer phimId, 
+                               @RequestParam("phongChieuId") Integer phongChieuId, 
+                               @RequestParam("thoiGianChieu") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime thoiGianChieu) {
+        Phim phim = phimService.getPhimById(phimId);
+        PhongChieu phongChieu = phongChieuService.getPhongChieuById(phongChieuId);
+        
+        SuatChieu suatChieu = new SuatChieu();
+        suatChieu.setPhim(phim);
+        suatChieu.setPhongChieu(phongChieu);
+        suatChieu.setThoiGianChieu(thoiGianChieu);
+        
         suatChieuService.saveSuatChieu(suatChieu);
-        return "redirect:/suat-chieu"; // Chuyển hướng về trang danh sách suất chiếu sau khi thêm thành công
+        return "redirect:/suat-chieu"; 
     }
 
     @GetMapping("/edit/{id}")

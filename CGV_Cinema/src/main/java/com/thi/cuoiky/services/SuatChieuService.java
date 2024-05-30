@@ -15,5 +15,7 @@ public interface SuatChieuService {
     List<SuatChieu> getSuatChieuByPhimId(int phimId);
     List<SuatChieu> getSuatChieuByPhongChieuId(int phongChieuId);
     List<SuatChieu> getSuatChieuByThoiGianChieu(LocalDateTime startTime, LocalDateTime endTime);
+    List<SuatChieu> getSuatChieuByPhimAndPhongChieu(int phimId, int phongChieuId);
     Page<SuatChieu> getSuatChieuPage(int pageNumber, int pageSize);
+    Page<SuatChieu> getSuatChieuByThoiGianChieu(LocalDateTime startTime, LocalDateTime endTime, int pageNumber, int pageSize);
 }

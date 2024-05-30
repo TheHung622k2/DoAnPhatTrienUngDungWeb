@@ -30,28 +30,28 @@
         </div>
         
         <!-- Form lọc -->
-        <form class="row mb-3" action="#" th:action="@{/suat-chieu}" method="get">
+        <form class="row mb-3" th:action="@{/suat-chieu}" method="get">
             <div class="col-md-3">
                 <label for="phimId" class="form-label">Phim</label>
                 <select class="form-select" id="phimId" name="phimId">
                     <option th:value="0" th:text="'--Chọn Phim--'"></option>
-                    <option th:each="phim : ${phimList}" th:value="${phim.maPhim}" th:text="${phim.tenPhim}"></option>
+                    <option th:each="phim : ${phimList}" th:value="${phim.maPhim}" th:text="${phim.tenPhim}" th:selected="${phim.maPhim} == ${selectedPhimId}"></option>
                 </select>
             </div>
             <div class="col-md-3">
                 <label for="phongChieuId" class="form-label">Phòng Chiếu</label>
                 <select class="form-select" id="phongChieuId" name="phongChieuId">
                     <option th:value="0" th:text="'--Chọn Phòng Chiếu--'"></option>
-                    <option th:each="phongChieu : ${phongChieuList}" th:value="${phongChieu.maPhong}" th:text="${phongChieu.tenPhong}"></option>
+                    <option th:each="phongChieu : ${phongChieuList}" th:value="${phongChieu.maPhong}" th:text="${phongChieu.tenPhong}" th:selected="${phongChieu.maPhong} == ${selectedPhongChieuId}"></option>
                 </select>
             </div>
             <div class="col-md-3">
                 <label for="startTime" class="form-label">Thời gian bắt đầu</label>
-                <input type="datetime-local" class="form-control" id="startTime" name="startTime">
+                <input type="datetime-local" class="form-control" id="startTime" name="startTime" th:value="${startTime}">
             </div>
             <div class="col-md-3">
                 <label for="endTime" class="form-label">Thời gian kết thúc</label>
-                <input type="datetime-local" class="form-control" id="endTime" name="endTime">
+                <input type="datetime-local" class="form-control" id="endTime" name="endTime" th:value="${endTime}">
             </div>
             <div class="col-md-12 mt-3">
                 <button type="submit" class="btn btn-primary">Lọc</button>
@@ -76,7 +76,7 @@
                     <td th:text="${suatChieu.formattedThoiGianChieu}"></td>
                     <td>
                         <a th:href="@{/suat-chieu/edit/{id}(id=${suatChieu.maSuatChieu})}" class="btn btn-warning btn-sm">Sửa</a>
-                        <a th:href="@{/suat-chieu/delete/{id}(id=${suatChieu.maSuatChieu})}" class="btn btn-danger btn-sm">Xóa</a>
+                        <a th:href="@{/suat-chieu/delete/{id}(id=${suatChieu.maSuatChieu})}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa suất chiếu này?');">Xóa</a>
                     </td>
                 </tr>
             </tbody>
