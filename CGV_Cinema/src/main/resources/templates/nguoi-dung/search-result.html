@@ -2,24 +2,39 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kết Quả Tìm Kiếm</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            padding-top: 50px;
-        }
-        .container {
-            max-width: 600px;
-        }
-    </style>
+    <title>Kết quả tìm kiếm người dùng</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1 class="mb-4">Kết Quả Tìm Kiếm</h1>
-        <!-- Display user details here -->
+    <div class="container mt-5">
+        <h1 class="mb-4">Kết quả tìm kiếm người dùng</h1>
+        
+        <div th:if="${nguoiDung != null}" class="card">
+            <div class="card-header">
+                Thông tin người dùng
+            </div>
+            <div class="card-body">
+                <p class="card-text">Mã người dùng: <span th:text="${nguoiDung.maNguoiDung}"></span></p>
+                <p class="card-text">Tên đăng nhập: <span th:text="${nguoiDung.tenDangNhap}"></span></p>
+                <p class="card-text">Họ tên: <span th:text="${nguoiDung.hoTen}"></span></p>
+                <p class="card-text">Địa chỉ: <span th:text="${nguoiDung.diaChi}"></span></p>
+                <p class="card-text">Số điện thoại: <span th:text="${nguoiDung.soDienThoai}"></span></p>
+                <p class="card-text">Ngày sinh: <span th:text="${nguoiDung.ngaySinh}"></span></p>
+                <p class="card-text">Email: <span th:text="${nguoiDung.email}"></span></p>
+                <p class="card-text">Vai trò: <span th:text="${nguoiDung.vaiTro.tenVaiTro}"></span></p>
+            </div>
+        </div>
+        
+        <div th:if="${nguoiDung == null}" class="alert alert-danger" role="alert">
+            Không tìm thấy người dùng với tên đăng nhập: <span th:text="${tenDangNhap}"></span>
+        </div>
+        
+        <a href="/nguoi-dung" class="btn btn-primary mt-4">Quay lại danh sách người dùng</a>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

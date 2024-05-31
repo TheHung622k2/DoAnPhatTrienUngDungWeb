@@ -10,4 +10,5 @@ public interface NguoiDungService {
     void saveNguoiDung(NguoiDung nguoiDung);
     void deleteNguoiDung(int id);
     NguoiDung getNguoiDungByTenDangNhap(String tenDangNhap);
+    void updateEnabledStatus(int id, boolean enabled);
 }

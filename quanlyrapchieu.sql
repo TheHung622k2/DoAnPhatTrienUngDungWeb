@@ -22,6 +22,8 @@ CREATE TABLE IF NOT EXISTS nguoi_dung (
     FOREIGN KEY (ma_vai_tro) REFERENCES vai_tro(ma_vai_tro)
 );
 
+ALTER TABLE nguoi_dung ADD COLUMN enabled BOOLEAN DEFAULT TRUE;
+
 -- Tạo bảng Thể Loại
 CREATE TABLE IF NOT EXISTS the_loai (
 	ma_the_loai INT AUTO_INCREMENT PRIMARY KEY,

@@ -27,31 +27,39 @@ public class LoginController {
     @PostMapping("/login")
     public String login(@RequestParam("tenDangNhap") String tenDangNhap, @RequestParam("matKhau") String matKhau, Model model, HttpSession session) {
         NguoiDung nguoiDung = nguoiDungService.getNguoiDungByTenDangNhap(tenDangNhap);
-        if (nguoiDung != null && nguoiDung.getMatKhau().equals(matKhau)) {
-            String greetingMessage = "";
-            String userRole = nguoiDung.getVaiTro().getTenVaiTro();
-            switch (userRole) {
-                case "Admin":
-                    greetingMessage = "Xin chào, Quản Trị Viên!";
-                    break;
-                case "Nhân Viên":
-                    greetingMessage = "Xin chào, " + nguoiDung.getTenDangNhap() + "!";
-                    break;
-                case "Khách Hàng":
-                    greetingMessage = "Xin chào, " + nguoiDung.getHoTen() + "!";
-                    break;
+        if (nguoiDung != null) {
+            if (!nguoiDung.getEnabled()) {
+                model.addAttribute("error", "Tài khoản của bạn tạm thời đang bị khóa!");
+                return "dang-nhap/login";
+            } else if (nguoiDung.getMatKhau().equals(matKhau)) {
+                String greetingMessage = "";
+                String userRole = nguoiDung.getVaiTro().getTenVaiTro();
+                switch (userRole) {
+                    case "Admin":
+                        greetingMessage = "Xin chào, Quản Trị Viên!";
+                        break;
+                    case "Nhân Viên":
+                        greetingMessage = "Xin chào, " + nguoiDung.getTenDangNhap() + "!";
+                        break;
+                    case "Khách Hàng":
+                        greetingMessage = "Xin chào, " + nguoiDung.getHoTen() + "!";
+                        break;
+                }
+                model.addAttribute("greetingMessage", greetingMessage);
+                session.setAttribute("greetingMessage", greetingMessage);
+                session.setAttribute("userRole", userRole);
+                session.setAttribute("maNguoiDung", nguoiDung.getMaNguoiDung());
+                return "redirect:/" + (userRole.equals("Admin") ? "admin/home" : userRole.equals("Nhân Viên") ? "nhan-vien/home" : "khach-hang/home");
+            } else {
+                model.addAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng");
+                return "dang-nhap/login";
             }
-            model.addAttribute("greetingMessage", greetingMessage);
-            session.setAttribute("greetingMessage", greetingMessage);
-            session.setAttribute("userRole", userRole);
-            session.setAttribute("maNguoiDung", nguoiDung.getMaNguoiDung());
-            return "redirect:/" + (userRole.equals("Admin") ? "admin/home" : userRole.equals("Nhân Viên") ? "nhan-vien/home" : "khach-hang/home");
         } else {
             model.addAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng");
             return "dang-nhap/login";
         }
     }
-    
+
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();

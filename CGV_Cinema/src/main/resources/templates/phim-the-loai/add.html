@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thêm Phim - Thể Loại</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .disabled-option {
+            color: red;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
@@ -12,14 +17,23 @@
         <form th:action="@{/phim-the-loai/add}" th:object="${phimTheLoai}" method="post">
             <div class="mb-3">
                 <label for="maPhim" class="form-label">Phim:</label>
-                <select id="maPhim" class="form-select" th:field="*{maPhim}">
-                    <option th:each="phim : ${phimList}" th:value="${phim}" th:text="${phim.tenPhim}"></option>
+                <select id="maPhim" class="form-select" name="maPhim" th:onchange="window.location.href='?phimId='+this.value">
+                    <option value="">--Chọn Phim--</option>
+                    <option th:each="phim : ${phimList}" 
+                            th:value="${phim.maPhim}" 
+                            th:text="${phim.tenPhim}"
+                            th:selected="${phim.maPhim} == ${selectedPhim?.maPhim}"></option>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="maTheLoai" class="form-label">Thể Loại:</label>
                 <select id="maTheLoai" class="form-select" th:field="*{maTheLoai}">
-                    <option th:each="theLoai : ${theLoaiList}" th:value="${theLoai}" th:text="${theLoai.tenTheLoai}"></option>
+                    <option th:each="theLoai : ${theLoaiList}" 
+                            th:value="${theLoai.maTheLoai}" 
+                            th:text="${theLoai.tenTheLoai}"
+                            th:classappend="${selectedTheLoaiList.contains(theLoai)} ? 'disabled-option' : ''"
+                            th:disabled="${selectedTheLoaiList.contains(theLoai)}">
+                    </option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Lưu</button>

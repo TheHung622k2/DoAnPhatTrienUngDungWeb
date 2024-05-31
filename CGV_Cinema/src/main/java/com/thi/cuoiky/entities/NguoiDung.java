@@ -50,6 +50,9 @@ public class NguoiDung {
     @ManyToOne // Mối quan hệ N-1 -> Mỗi người dùng có một vai trò, nhưng một vai trò có thể được gán cho nhiều người dùng.
     @JoinColumn(name = "ma_vai_tro", referencedColumnName = "ma_vai_tro") // @JoinColumn chỉ định cột nào trong bảng cơ sở dữ liệu sẽ được sử dụng như là khóa ngoại để liên kết hai bảng, referencedColumnName = "ma_vai_tro" chỉ định rằng cột khóa ngoại này sẽ liên kết tới cột ma_vai_tro của bảng VaiTro.
     private VaiTro vaiTro;
+    
+    @Column(name = "enabled", nullable = false)
+    private Boolean enabled = true;
 
     // Constructors, getters, and setters
     public NguoiDung() {
@@ -125,5 +128,13 @@ public class NguoiDung {
 
     public void setVaiTro(VaiTro vaiTro) {
         this.vaiTro = vaiTro;
+    }
+    
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 }

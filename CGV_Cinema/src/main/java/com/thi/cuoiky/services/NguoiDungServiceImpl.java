@@ -38,4 +38,9 @@ public class NguoiDungServiceImpl implements NguoiDungService {
     public NguoiDung getNguoiDungByTenDangNhap(String tenDangNhap) {
         return nguoiDungRepository.findByTenDangNhap(tenDangNhap);
     }
+    
+    @Override
+    public void updateEnabledStatus(int id, boolean enabled) {
+        nguoiDungRepository.updateEnabledStatus(id, enabled);
+    }
 }

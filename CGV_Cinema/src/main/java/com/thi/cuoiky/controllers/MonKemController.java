@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class MonKemController {
     public String getAllMonKem(Model model) {
         List<MonKem> monKemList = monKemService.getAllMonKem();
         model.addAttribute("monKemList", monKemList);
-        return "mon-kem/list"; // Trả về tên của Thymeleaf template để hiển thị danh sách món kem
+        return "mon-kem/list";
     }
 
     @GetMapping("/add")
@@ -49,7 +50,7 @@ public class MonKemController {
         List<LoaiDoKemThem> loaiDoKemThemList = loaiDoKemThemService.getAllLoaiDoKemThem();
         model.addAttribute("monKem", monKem);
         model.addAttribute("loaiDoKemThemList", loaiDoKemThemList);
-        return "mon-kem/add"; // Trả về tên của Thymeleaf template để hiển thị form thêm món kem
+        return "mon-kem/add";
     }
 
     @PostMapping("/add")
@@ -70,7 +71,7 @@ public class MonKemController {
             }
         }
         monKemService.saveMonKem(monKem);
-        return "redirect:/mon-kem"; // Chuyển hướng về trang danh sách món kem sau khi thêm thành công
+        return "redirect:/mon-kem";
     }
 
     @GetMapping("/edit/{id}")
@@ -79,27 +80,38 @@ public class MonKemController {
         List<LoaiDoKemThem> loaiDoKemThemList = loaiDoKemThemService.getAllLoaiDoKemThem();
         model.addAttribute("monKem", monKem);
         model.addAttribute("loaiDoKemThemList", loaiDoKemThemList);
-        return "mon-kem/edit"; // Trả về trang chỉnh sửa món kèm
+        return "mon-kem/edit";
     }
 
     @PostMapping("/edit/{id}")
     public String editMonKem(@PathVariable("id") int id, @ModelAttribute("monKem") MonKem monKem, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+        MonKem existingMonKem = monKemService.getMonKemById(id);
+        if (existingMonKem == null) {
+            redirectAttributes.addFlashAttribute("message", "Món kèm không tồn tại!");
+            return "redirect:/mon-kem";
+        }
+
         if (file != null && !file.isEmpty()) {
+            String fileName = file.getOriginalFilename();
+            Path path = Paths.get(UPLOAD_DIR + fileName);
             try {
-                String fileName = file.getOriginalFilename();
-                Path path = Paths.get(UPLOAD_DIR + fileName);
-                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                // Đọc nội dung tệp vào bộ nhớ
+                byte[] bytes = file.getBytes();
+
+                // Ghi đè tệp hiện có nếu đã tồn tại
+                Files.write(path, bytes, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+
                 monKem.setHinhAnh("food_and_drink/" + fileName);
             } catch (IOException e) {
                 e.printStackTrace();
-                redirectAttributes.addFlashAttribute("message", "File upload failed!");
+                redirectAttributes.addFlashAttribute("message", "Tải tệp thất bại!");
                 return "redirect:/mon-kem/edit/" + id;
             }
         } else {
-            MonKem existingMonKem = monKemService.getMonKemById(id);
             monKem.setHinhAnh(existingMonKem.getHinhAnh());
         }
-        monKem.setMaMonKem(id); // Ensure the ID is set correctly
+
+        monKem.setMaMonKem(id);
         monKemService.saveMonKem(monKem);
         return "redirect:/mon-kem";
     }
@@ -108,6 +120,6 @@ public class MonKemController {
     @GetMapping("/delete/{id}")
     public String deleteMonKem(@PathVariable("id") int id) {
         monKemService.deleteMonKem(id);
-        return "redirect:/mon-kem"; // Chuyển hướng về trang danh sách món kem sau khi xóa thành công
+        return "redirect:/mon-kem";
     }
 }

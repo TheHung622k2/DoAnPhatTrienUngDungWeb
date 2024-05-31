@@ -1,5 +1,6 @@
 package com.thi.cuoiky.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.thi.cuoiky.dtos.PhimTheLoaiDTO;
 import com.thi.cuoiky.entities.Phim;
 import com.thi.cuoiky.entities.PhimTheLoaiId;
 import com.thi.cuoiky.entities.Phim_TheLoai;
@@ -34,62 +37,57 @@ public class PhimTheLoaiController {
 
     @GetMapping
     public String getAllPhimTheLoai(Model model) {
-        List<Phim_TheLoai> phimTheLoaiList = phimTheLoaiService.getAllPhimTheLoai();
+        List<PhimTheLoaiDTO> phimTheLoaiList = phimTheLoaiService.getAllPhimWithGroupedTheLoai();
         model.addAttribute("phimTheLoaiList", phimTheLoaiList);
-        return "phim-the-loai/list"; // Trả về tên của Thymeleaf template để hiển thị danh sách phim-thể loại
+        return "phim-the-loai/list";
     }
 
     @GetMapping("/add")
-    public String showAddPhimTheLoaiForm(Model model) {
+    public String showAddPhimTheLoaiForm(@RequestParam(value = "phimId", required = false) Integer phimId, Model model) {
         Phim_TheLoai phimTheLoai = new Phim_TheLoai();
         List<Phim> phimList = phimService.getAllPhim();
         List<TheLoai> theLoaiList = theLoaiService.getAllTheLoai();
+        List<TheLoai> selectedTheLoaiList = new ArrayList<>();
+        Phim selectedPhim = null;
+
+        if (phimId != null) {
+            List<Phim_TheLoai> phimTheLoaiList = phimTheLoaiService.getPhimTheLoaiByPhimId(phimId);
+            for (Phim_TheLoai pt : phimTheLoaiList) {
+                selectedTheLoaiList.add(pt.getMaTheLoai());
+            }
+            selectedPhim = phimService.getPhimById(phimId); // Lấy thông tin phim đã chọn
+        }
+
         model.addAttribute("phimTheLoai", phimTheLoai);
         model.addAttribute("phimList", phimList);
         model.addAttribute("theLoaiList", theLoaiList);
-        return "phim-the-loai/add"; // Trả về tên của Thymeleaf template để hiển thị form thêm phim-thể loại
+        model.addAttribute("selectedTheLoaiList", selectedTheLoaiList);
+        model.addAttribute("selectedPhim", selectedPhim); // Thêm phim đã chọn vào model
+
+        return "phim-the-loai/add";
     }
 
     @PostMapping("/add")
     public String addPhimTheLoai(@ModelAttribute("phimTheLoai") Phim_TheLoai phimTheLoai) {
         phimTheLoaiService.savePhimTheLoai(phimTheLoai);
-        return "redirect:/phim-the-loai"; // Chuyển hướng về trang danh sách phim-thể loại sau khi thêm thành công
+        return "redirect:/phim-the-loai";
     }
 
-    @GetMapping("/edit/{phimId}/{theLoaiId}")
-    public String showEditPhimTheLoaiForm(@PathVariable("phimId") int phimId, @PathVariable("theLoaiId") int theLoaiId, Model model) {
-        PhimTheLoaiId id = new PhimTheLoaiId(phimId, theLoaiId);
-        Phim_TheLoai phimTheLoai = phimTheLoaiService.getPhimTheLoaiById(id);
-        List<Phim> phimList = phimService.getAllPhim();
-        List<TheLoai> theLoaiList = theLoaiService.getAllTheLoai();
-        if (phimTheLoai != null) {
-            model.addAttribute("phimTheLoai", phimTheLoai);
-            model.addAttribute("phimList", phimList);
-            model.addAttribute("theLoaiList", theLoaiList);
-            return "phim-the-loai/edit"; // Trả về tên của Thymeleaf template để hiển thị form chỉnh sửa phim-thể loại
-        } else {
-            return "redirect:/phim-the-loai"; // Chuyển hướng về trang danh sách phim-thể loại nếu không tìm thấy phim-thể loại với id đã cho
+    @GetMapping("/delete/{phimId}")
+    public String showDeletePhimTheLoaiForm(@PathVariable("phimId") int phimId, Model model) {
+        List<Phim_TheLoai> phimTheLoaiList = phimTheLoaiService.getPhimTheLoaiByPhimId(phimId);
+        model.addAttribute("phimId", phimId);
+        model.addAttribute("phimTheLoaiList", phimTheLoaiList);
+        return "phim-the-loai/delete";
+    }
+
+    @PostMapping("/delete/{phimId}")
+    public String deleteSelectedPhimTheLoai(@PathVariable("phimId") int phimId, @RequestParam("theLoaiIds") List<Integer> theLoaiIds) {
+        for (Integer theLoaiId : theLoaiIds) {
+            PhimTheLoaiId id = new PhimTheLoaiId(phimId, theLoaiId);
+            phimTheLoaiService.deletePhimTheLoai(id);
         }
+        return "redirect:/phim-the-loai";
     }
 
-    @PostMapping("/edit/{phimId}/{theLoaiId}")
-    public String editPhimTheLoai(@PathVariable("phimId") int phimId, @PathVariable("theLoaiId") int theLoaiId, @ModelAttribute("phimTheLoai") Phim_TheLoai phimTheLoai) {
-        // Tạo ID cũ
-        PhimTheLoaiId oldId = new PhimTheLoaiId(phimId, theLoaiId);
-
-        // Xóa bản ghi cũ
-        phimTheLoaiService.deletePhimTheLoai(oldId);
-
-        // Lưu bản ghi mới
-        phimTheLoaiService.savePhimTheLoai(phimTheLoai);
-
-        return "redirect:/phim-the-loai"; // Chuyển hướng về trang danh sách phim-thể loại sau khi chỉnh sửa thành công
-    }
-
-    @GetMapping("/delete/{phimId}/{theLoaiId}")
-    public String deletePhimTheLoai(@PathVariable("phimId") int phimId, @PathVariable("theLoaiId") int theLoaiId) {
-        PhimTheLoaiId id = new PhimTheLoaiId(phimId, theLoaiId);
-        phimTheLoaiService.deletePhimTheLoai(id);
-        return "redirect:/phim-the-loai"; // Chuyển hướng về trang danh sách phim-thể loại sau khi xóa thành công
-    }
 }

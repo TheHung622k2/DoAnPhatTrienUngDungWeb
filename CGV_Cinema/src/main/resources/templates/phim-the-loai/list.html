@@ -10,28 +10,25 @@
 
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="h3">Danh sách Phim - Thể Loại</h1>
-            <a href="/phim-the-loai/add" class="btn btn-primary">Thêm Phim - Thể Loại</a>
+            <h1 class="h3">Quản lý thể loại của từng phim</h1>
         </div>
-        <table class="table table-striped table-bordered">
+        <table class="table table-striped table-bordered" id="phimTable">
             <thead class="table-dark">
                 <tr>
-                    <th scope="col">Mã Phim</th>
+                    <th scope="col" onclick="sortTable(0)">Mã Phim</th>
                     <th scope="col">Tên Phim</th>
-                    <th scope="col">Mã Thể Loại</th>
-                    <th scope="col">Tên Thể Loại</th>
+                    <th scope="col">Thể Loại</th>
                     <th scope="col">Hành Động</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="phimTheLoai : ${phimTheLoaiList}">
-                    <td th:text="${phimTheLoai.maPhim.maPhim}"></td>
-                    <td th:text="${phimTheLoai.maPhim.tenPhim}"></td>
-                    <td th:text="${phimTheLoai.maTheLoai.maTheLoai}"></td>
-                    <td th:text="${phimTheLoai.maTheLoai.tenTheLoai}"></td>
+                    <td th:text="${phimTheLoai.maPhim}"></td>
+                    <td th:text="${phimTheLoai.tenPhim}"></td>
+                    <td th:text="${phimTheLoai.tenTheLoai}"></td>
                     <td>
-                        <a th:href="@{/phim-the-loai/edit/{phimId}/{theLoaiId}(phimId=${phimTheLoai.maPhim.maPhim}, theLoaiId=${phimTheLoai.maTheLoai.maTheLoai})}" class="btn btn-warning btn-sm">Sửa</a>
-                        <a th:href="@{/phim-the-loai/delete/{phimId}/{theLoaiId}(phimId=${phimTheLoai.maPhim.maPhim}, theLoaiId=${phimTheLoai.maTheLoai.maTheLoai})}" class="btn btn-danger btn-sm">Xóa</a>
+                        <a href="/phim-the-loai/add" class="btn btn-primary">Thêm Phim - Thể Loại</a>
+                        <a th:href="@{/phim-the-loai/delete/{phimId}(phimId=${phimTheLoai.maPhim})}" class="btn btn-danger btn-sm ms-2">Xóa</a>
                     </td>
                 </tr>
             </tbody>
@@ -42,5 +39,43 @@
     <div th:replace="~{fragments/footer :: footer}"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function sortTable(n) {
+            const table = document.getElementById("phimTable");
+            let rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            switching = true;
+            dir = "asc"; 
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    if (dir === "asc") {
+                        if (parseInt(x.innerHTML) > parseInt(y.innerHTML)) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir === "desc") {
+                        if (parseInt(x.innerHTML) < parseInt(y.innerHTML)) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    if (switchcount === 0 && dir === "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+    </script>
 </body>
 </html>
