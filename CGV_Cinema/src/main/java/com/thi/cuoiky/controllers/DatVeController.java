@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -153,10 +154,23 @@ public class DatVeController {
         ve.setNguoiDung(nguoiDung);
         ve.setGiaVe(giaVe);
 
+        // Thêm mã ngẫu nhiên cho randomString
+        String randomString = generateRandomString(8);
+        ve.setRandomString(randomString);
+
         veService.saveVe(ve);
 
         model.addAttribute("message", "Đặt vé thành công!");
-        return "redirect:/khach-hang/home";
+        return "redirect:/dat-ve-tc";
     }
 
+    private String generateRandomString(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder randomString = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            randomString.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        return randomString.toString();
+    }
 }

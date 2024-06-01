@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 
@@ -59,17 +58,21 @@ public class MonKemController {
             try {
                 String fileName = file.getOriginalFilename();
                 Path path = Paths.get(UPLOAD_DIR + fileName);
-                
+
+                // Đọc nội dung tệp vào bộ nhớ
+                byte[] bytes = file.getBytes();
+
                 // Ghi đè tệp hiện có nếu đã tồn tại
-                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                Files.write(path, bytes, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
 
                 monKem.setHinhAnh("food_and_drink/" + fileName);
             } catch (IOException e) {
                 e.printStackTrace();
-                redirectAttributes.addFlashAttribute("message", "File upload failed!");
+                redirectAttributes.addFlashAttribute("message", "Tải tệp thất bại!");
                 return "redirect:/mon-kem/add";
             }
         }
+
         monKemService.saveMonKem(monKem);
         return "redirect:/mon-kem";
     }
@@ -115,7 +118,6 @@ public class MonKemController {
         monKemService.saveMonKem(monKem);
         return "redirect:/mon-kem";
     }
-
 
     @GetMapping("/delete/{id}")
     public String deleteMonKem(@PathVariable("id") int id) {

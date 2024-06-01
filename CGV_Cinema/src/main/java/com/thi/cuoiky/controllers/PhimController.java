@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 
@@ -73,20 +72,25 @@ public class PhimController {
             try {
                 String fileName = file.getOriginalFilename();
                 Path path = Paths.get(UPLOAD_DIR + fileName);
-                
+
+                // Đọc nội dung tệp vào bộ nhớ
+                byte[] bytes = file.getBytes();
+
                 // Ghi đè tệp hiện có nếu đã tồn tại
-                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                Files.write(path, bytes, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
 
                 phim.setAnh("/upload/" + fileName);
             } catch (IOException e) {
                 e.printStackTrace();
-                redirectAttributes.addFlashAttribute("message", "File upload failed!");
+                redirectAttributes.addFlashAttribute("message", "Tải tệp thất bại!");
                 return "redirect:/phim/add";
             }
         }
+
         phimService.savePhim(phim);
         return "redirect:/phim";
     }
+
 
     @GetMapping("/edit/{id}")
     public String showEditPhimForm(@PathVariable("id") int id, Model model) {

@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Đặt vé</title>
+    <title>CGV Cinemas Đặt vé</title>
+    <link rel="shortcut icon" type="images/x-icon" href="images/cgv.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .seat {
@@ -28,6 +29,7 @@
             text-align: center;
             line-height: 30px;
             margin-bottom: 20px;
+            font-weight: bold;
         }
         .seat.available {
             background-color: #00f;
@@ -77,7 +79,7 @@
 
     <!-- Container for booking form -->
     <div class="container mt-5">
-        <h2 class="mb-4">Đặt vé</h2>
+        <h2 class="mb-4 text-danger">Đặt vé</h2>
 
         <!-- Error Message -->
         <div id="error-message" class="alert alert-danger d-none" role="alert">
@@ -91,11 +93,11 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Phim</th>
-                        <th>Phòng chiếu</th>
-                        <th>Thời gian chiếu</th>
-                        <th>Chọn ghế</th>
-                        <th>Chọn món kèm</th>
+                        <th class="bg-danger text-white">Phim</th>
+                        <th class="bg-danger text-white">Phòng chiếu</th>
+                        <th class="bg-danger text-white">Thời gian chiếu</th>
+                        <th class="bg-danger text-white">Chọn ghế</th>
+                        <th class="bg-danger text-white">Chọn món kèm</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -132,7 +134,7 @@
             </table>
 
             <!-- Submit button -->
-            <button type="submit" class="btn btn-primary">Đặt vé</button>
+            <button type="submit" class="btn btn-danger">Đặt vé</button>
             <!-- Back button -->
             <button type="button" class="btn btn-secondary" onclick="window.history.back()">Quay về</button>
         </form>
@@ -160,8 +162,9 @@
                 <span>Ghế đang chọn</span>
             </div>
         </div>
-    </div>
-
+    </div><br><br><br><br>
+	<!-- Footer Fragment -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
     <!-- Bootstrap JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script th:inline="javascript">

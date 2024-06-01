@@ -38,6 +38,9 @@ public class Ve {
 
     @Column(name = "gia_ve", nullable = false, precision = 10, scale = 2)
     private BigDecimal giaVe;
+    
+    @Column(name = "random_string", nullable = false, length = 8)
+    private String randomString;
 
     // Constructors, getters, and setters
     public Ve() {
@@ -89,5 +92,14 @@ public class Ve {
 
     public void setGiaVe(BigDecimal giaVe) {
         this.giaVe = giaVe;
+    }
+
+
+    public String getRandomString() {
+    	return randomString;
+    }
+
+    public void setRandomString(String randomString) {
+    	this.randomString = randomString;
     }
 }

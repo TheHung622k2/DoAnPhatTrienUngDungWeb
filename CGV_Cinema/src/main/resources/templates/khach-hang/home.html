@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Danh sách Phim</title>
+    <title>CGV Cinemas</title>
+    <link rel="shortcut icon" type="images/x-icon" href="images/cgv.ico">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <style>
         /* CSS cho hiệu ứng zoom ảnh */
@@ -21,7 +22,11 @@
 </head>
 <body>
     <nav th:replace="~{fragments/navbar :: navbar}"></nav>
-    <div class="container mt-5">
+    <a class="nav-link custom-link" href="/dat-ve-tc">
+        <button class="btn btn-danger">Danh sách vé của bạn</button>
+    </a>
+ 
+    <div class="container mt-5" >
         <div class="row">
             <div th:each="phim, rowStat : ${danhSachPhim}" class="col-md-3 mb-4">
                 <div class="card h-100">
@@ -49,7 +54,8 @@
             </div>
         </div>
     </div>
-    <nav th:replace="~{fragments/footer :: footer}"></nav>
+    <!-- Footer Fragment -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
     <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

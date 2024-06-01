@@ -105,6 +105,8 @@ CREATE TABLE IF NOT EXISTS ve (
     FOREIGN KEY (ma_mon_kem) REFERENCES mon_kem(ma_mon_kem)
 );
 
+ALTER TABLE ve CHANGE COLUMN string_random random_string NVARCHAR(255);
+
 -- Tạo bảng Hóa Đơn
 CREATE TABLE IF NOT EXISTS hoa_don (
     ma_hoa_don INT AUTO_INCREMENT PRIMARY KEY,

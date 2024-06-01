@@ -4,11 +4,17 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 </head>
 <body>
-    <footer th:fragment="footer" class="footer mt-auto py-3 bg-light">
+    <footer th:fragment="footer" class="footer mt-auto bg-light">
         <div class="container text-center">
-            <span class="text-muted">© 2024 Movie Booking. All rights reserved.</span>
+            <span class="text-muted">Copyright &#169; 2024 <a href="#">Movie Booking.</a> All rights reserved.</span>
         </div>
+       <div style="display: flex; justify-content: center;">
+    <img src="/images/footer.jpg" alt="Footer" style="width: 100%; max-width: 33.33%;">
+    <img src="/images/footer.jpg" alt="Footer" style="width: 100%; max-width: 33.33%;">
+    <img src="/images/footer.jpg" alt="Footer" style="width: 100%; max-width: 33.33%;">
+</div>
     </footer>
+    
     <script th:src="@{/js/jquery.min.js}"></script>
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
