@@ -10,4 +10,6 @@ public interface HoaDonService {
     void saveHoaDon(HoaDon hoaDon);
     void deleteHoaDon(int id);
     List<HoaDon> getHoaDonByVeId(int veId);
+    List<Object[]> getMonthlyRevenueByYearAndMonthRange(int year, int startMonth, int endMonth);
+    List<Integer> getDistinctYears();
 }

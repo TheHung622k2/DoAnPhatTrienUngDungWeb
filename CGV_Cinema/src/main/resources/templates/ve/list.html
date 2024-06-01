@@ -33,6 +33,7 @@
                     <td th:text="${ve.monKem != null ? ve.monKem.maMonKem : ''}"></td>
                     <td th:text="${ve.giaVe}"></td>
                     <td>
+                    	<a th:href="@{/ve/detail/{id}(id=${ve.maVe})}" class="btn btn-info btn-sm">Xem chi tiết</a>
                         <a th:href="@{/ve/delete/{id}(id=${ve.maVe})}" class="btn btn-danger btn-sm" onclick="return confirmDelete()">Xóa</a>
                     </td>
                 </tr>

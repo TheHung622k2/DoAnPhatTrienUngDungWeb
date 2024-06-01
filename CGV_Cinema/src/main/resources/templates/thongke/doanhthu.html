@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biểu đồ doanh thu hàng tháng</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .container {
+            flex: 1;
+            margin-top: 20px;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            margin-top: 20px;
+            background-color: #ebf4f5;
+            padding: 10px 0;
+            text-align: center;
+        }
+        footer a {
+            color: #fff;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        #revenueChart.pie-chart {
+            width: 550px !important;
+            height: 550px !important;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Fragment -->
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    
+    <div class="container mt-5" style="min-height:835px">
+        <div class="card">
+            <div class="card-header text-center">
+                <h1>Doanh thu hàng tháng cho Năm <span th:text="${selectedYear}"></span></h1>
+            </div>
+            <div class="card-body">
+                <form action="/thongke/doanhthu" method="get" class="form-inline justify-content-center mb-4">
+                    <div class="row g-2">
+                        <div class="col-md-3">
+                            <label for="yearSelect" class="form-label">Select Year:</label>
+                            <select id="yearSelect" name="year" class="form-select" onchange="this.form.submit()">
+                                <option value="" disabled>Select year</option>
+                                <option th:each="year : ${years}" th:value="${year}" th:text="${year}"
+                                        th:selected="${year} == ${selectedYear}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="startMonthSelect" class="form-label">From Month:</label>
+                            <select id="startMonthSelect" name="startMonth" class="form-select">
+                                <option value="" disabled selected>Select month</option>
+                                <option th:each="i : ${#numbers.sequence(1, 12)}" th:value="${i}" th:text="${i}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="endMonthSelect" class="form-label">To Month:</label>
+                            <select id="endMonthSelect" name="endMonth" class="form-select">
+                                <option value="" disabled selected>Select month</option>
+                                <option th:each="i : ${#numbers.sequence(1, 12)}" th:value="${i}" th:text="${i}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 align-self-end">
+                            <button type="submit" class="btn btn-custom me-2">Filter</button>
+                            <button type="button" class="btn btn-secondary me-2" onclick="switchChartType()">Switch Chart</button>
+                            <button type="button" class="btn btn-success" onclick="downloadCSV()">Export CSV</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="row justify-content-center">
+                    <div class="col-md-10">
+                        <canvas id="revenueChart" width="800" height="400"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer Fragment -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var ctx = document.getElementById('revenueChart').getContext('2d');
+        var monthlyRevenue = /*[[${monthlyRevenue}]]*/ [];
+        var labels = Array.from({length: 12}, (_, i) => 'Tháng ' + (i + 1));
+        var data = Array(12).fill(0);
+
+        monthlyRevenue.forEach(item => {
+            var monthIndex = item[0] - 1; // Assuming item[0] is the month number (1-12)
+            data[monthIndex] = item[1];
+        });
+
+        var chartTypes = ['bar', 'line', 'pie'];
+        var chartIndex = 0;
+        var chart = new Chart(ctx, {
+            type: chartTypes[chartIndex],
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Doanh thu',
+                    data: data,
+                    backgroundColor: chartTypes[chartIndex] === 'pie' 
+                        ? ['rgba(75, 192, 192, 0.2)', 'rgba(75, 75, 192, 0.2)', 'rgba(192, 75, 75, 0.2)', 'rgba(192, 192, 75, 0.2)', 'rgba(75, 192, 75, 0.2)', 'rgba(192, 75, 192, 0.2)', 'rgba(192, 75, 192, 0.2)', 'rgba(75, 75, 75, 0.2)', 'rgba(192, 192, 192, 0.2)', 'rgba(75, 75, 192, 0.2)', 'rgba(192, 192, 75, 0.2)', 'rgba(75, 192, 75, 0.2)'] 
+                        : 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: chartTypes[chartIndex] !== 'pie' ? {
+                    y: {
+                        beginAtZero: true
+                    }
+                } : {}
+            }
+        });
+
+        function switchChartType() {
+            chartIndex = (chartIndex + 1) % chartTypes.length;
+            chart.destroy();
+
+            if (chartTypes[chartIndex] === 'pie') {
+                document.getElementById('revenueChart').classList.add('pie-chart');
+            } else {
+                document.getElementById('revenueChart').classList.remove('pie-chart');
+            }
+
+            chart = new Chart(ctx, {
+                type: chartTypes[chartIndex],
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Doanh thu',
+                        data: data,
+                        backgroundColor: chartTypes[chartIndex] === 'pie' 
+                            ? ['rgba(75, 192, 192, 0.2)', 'rgba(75, 75, 192, 0.2)', 'rgba(192, 75, 75, 0.2)', 'rgba(192, 192, 75, 0.2)', 'rgba(75, 192, 75, 0.2)', 'rgba(192, 75, 192, 0.2)', 'rgba(192, 75, 192, 0.2)', 'rgba(75, 75, 75, 0.2)', 'rgba(192, 192, 192, 0.2)', 'rgba(75, 75, 192, 0.2)', 'rgba(192, 192, 75, 0.2)', 'rgba(75, 192, 75, 0.2)'] 
+                            : 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: chartTypes[chartIndex] !== 'pie' ? {
+                        y: {
+                            beginAtZero: true
+                        }
+                    } : {}
+                }
+            });
+        }
+
+        function downloadCSV() {
+            var csvContent = "data:text/csv;charset=utf-8,Month,Revenue\n";
+            data.forEach((revenue, index) => {
+                csvContent += `${index + 1},${revenue}\n`;
+            });
+
+            var encodedUri = encodeURI(csvContent);
+            var link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "monthly_revenue.csv");
+            document.body.appendChild(link);
+
+            link.click();
+            document.body.removeChild(link);
+        }
+        /*]]>*/
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

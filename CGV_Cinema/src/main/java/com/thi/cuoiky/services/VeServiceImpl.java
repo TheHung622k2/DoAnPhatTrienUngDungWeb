@@ -43,4 +43,9 @@ public class VeServiceImpl implements VeService {
     public List<Ve> getVeByNguoiDungId(int nguoiDungId) {
         return veRepository.findByNguoiDung_MaNguoiDung(nguoiDungId);
     }
+    
+    @Override
+    public Ve getVeDetailById(int id) {
+        return veRepository.findById(id).orElse(null);
+    }
 }

@@ -1,5 +1,8 @@
 package com.thi.cuoiky.controllers;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,5 +116,25 @@ public class VeController {
         List<Ve> veList = veService.getVeByNguoiDungId(nguoiDungId);
         model.addAttribute("veList", veList);
         return "ve/list"; // Trả về tên của Thymeleaf template để hiển thị danh sách vé theo người dùng
+    }
+    
+    @GetMapping("/detail/{id}")
+    public String getVeDetail(@PathVariable("id") int id, Model model) {
+        Ve ve = veService.getVeDetailById(id);
+        if (ve != null) {
+            String formattedGiaVe = formatDecimal(ve.getGiaVe());
+            model.addAttribute("ve", ve);
+            model.addAttribute("formattedGiaVe", formattedGiaVe);
+            return "ve/detail"; // Trả về tên của Thymeleaf template để hiển thị chi tiết vé
+        } else {
+            return "redirect:/ve"; // Chuyển hướng về trang danh sách vé nếu không tìm thấy vé với id đã cho
+        }
+    }
+
+    private String formatDecimal(BigDecimal value) {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator('.');
+        DecimalFormat df = new DecimalFormat("#,##0", symbols);
+        return df.format(value);
     }
 }

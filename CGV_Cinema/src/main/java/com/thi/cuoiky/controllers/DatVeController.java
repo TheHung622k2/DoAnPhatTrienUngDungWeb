@@ -1,6 +1,7 @@
 package com.thi.cuoiky.controllers;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
@@ -18,11 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.thi.cuoiky.entities.Ghe;
+import com.thi.cuoiky.entities.HoaDon;
 import com.thi.cuoiky.entities.MonKem;
 import com.thi.cuoiky.entities.NguoiDung;
 import com.thi.cuoiky.entities.SuatChieu;
 import com.thi.cuoiky.entities.Ve;
 import com.thi.cuoiky.services.GheService;
+import com.thi.cuoiky.services.HoaDonService;
 import com.thi.cuoiky.services.MonKemService;
 import com.thi.cuoiky.services.NguoiDungService;
 import com.thi.cuoiky.services.SuatChieuService;
@@ -52,6 +55,9 @@ public class DatVeController {
     @Autowired
     private NguoiDungService nguoiDungService;
 
+    @Autowired
+    private HoaDonService hoaDonService;
+    
     @GetMapping("/{maPhim}")
     public String hienThiTrangDatVe(@PathVariable Integer maPhim, Model model, HttpSession session) throws JsonProcessingException {
         List<SuatChieu> danhSachSuatChieu = suatChieuService.getSuatChieuByPhimId(maPhim);
@@ -159,6 +165,19 @@ public class DatVeController {
         ve.setRandomString(randomString);
 
         veService.saveVe(ve);
+
+        // Tính tổng tiền và tạo hóa đơn
+        BigDecimal tongTien = giaVe;
+        if (monKem != null) {
+            tongTien = tongTien.add(monKem.getGiaBan());
+        }
+
+        HoaDon hoaDon = new HoaDon();
+        hoaDon.setVe(ve);
+        hoaDon.setTongTien(tongTien);
+        hoaDon.setNgayTao(LocalDateTime.now());
+
+        hoaDonService.saveHoaDon(hoaDon);
 
         model.addAttribute("message", "Đặt vé thành công!");
         return "redirect:/dat-ve-tc";

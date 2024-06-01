@@ -11,4 +11,5 @@ public interface VeService {
     void deleteVe(int id);
     List<Ve> getVeBySuatChieuId(int suatChieuId);
     List<Ve> getVeByNguoiDungId(int nguoiDungId);
+    Ve getVeDetailById(int id);
 }
